@@ -13,6 +13,28 @@ namespace Travel_Blog
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // 1. ANASAYFA ROTASI
+            routes.MapRoute(
+                name: "Anasayfa",
+                url: "anasayfa", // Tarayıcıda siteadi.com/anasayfa şeklinde görünmesini sağlar
+                defaults: new { controller = "Home", action = "Index" }
+            );
+
+            // 2. HAKKIMIZDA SAYFASI ROTASI
+            routes.MapRoute(
+                name: "Hakkimizda",
+                url: "hakkimizda",
+                defaults: new { controller = "Home", action = "About" }
+            );
+
+            // 3. İLETİŞİM SAYFASI ROTASI
+            routes.MapRoute(
+                name: "Iletisim",
+                url: "iletisim",
+                defaults: new { controller = "Home", action = "Contact" }
+            );
+
+            // Varsayılan Rota (Buna dokunmuyoruz, site ilk açıldığında boş URL ile /Home/Index'e gitmeye devam eder)
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

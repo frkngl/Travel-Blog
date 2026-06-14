@@ -41,7 +41,11 @@
 </head>
 
 <body class="index-page">
-
+    @{
+        var db = new Travel_Blog.Models.TravelBlogEntities();
+        var contact = db.TBLCONTACT.FirstOrDefault();
+        var social = db.TBLADMIN.FirstOrDefault();
+    }
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container position-relative d-flex align-items-center justify-content-between">
 
@@ -70,9 +74,9 @@
             </nav>
 
             <div class="header-social-links">
-                <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                <a href="@social.TWITTER" target="_blank" class="twitter"><i class="bi bi-twitter-x"></i></a>
+                <a href="@social.INSTAGRAM" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="@social.LINKEDIN" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
             </div>
 
         </div>
@@ -89,15 +93,14 @@
                         <span class="sitename">GülBlog</span>
                     </a>
                     <div class="footer-contact pt-3">
-                        <p>A108 Adam Street</p>
-                        <p>New York, NY 535022</p>
-                        <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-                        <p><strong>Email:</strong> <span>info@example.com</span></p>
+                        <p>@contact.ADDRESS</p>
+                        <p class="mt-3"><strong>Phone:</strong> <span>+90 @contact.PHONE</span></p>
+                        <p><strong>Email:</strong> <span>@contact.EMAIL</span></p>
                     </div>
                     <div class="social-links d-flex mt-4">
-                        <a href=""><i class="bi bi-twitter-x"></i></a>
-                        <a href=""><i class="bi bi-instagram"></i></a>
-                        <a href=""><i class="bi bi-linkedin"></i></a>
+                        <a href="@social.TWITTER" target="_blank"><i class="bi bi-twitter-x"></i></a>
+                        <a href="@social.INSTAGRAM" target="_blank"><i class="bi bi-instagram"></i></a>
+                        <a href="@social.LINKEDIN" target="_blank"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
 

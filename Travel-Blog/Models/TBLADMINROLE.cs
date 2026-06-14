@@ -21,9 +21,7 @@ namespace Travel_Blog.Models
         }
     
         public int ID { get; set; }
-        public string ADMINISTRATOR { get; set; }
-        public string ASSISTANT { get; set; }
-        public string WRITER { get; set; }
+        public string ROLE { get; set; }
         public Nullable<bool> STATUS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -28,10 +28,10 @@ namespace Travel_Blog.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TBLABOUT> TBLABOUT { get; set; }
         public virtual DbSet<TBLADMIN> TBLADMIN { get; set; }
-        public virtual DbSet<TBLADMINROLE> TBLADMINROLE { get; set; }
         public virtual DbSet<TBLBLOGS> TBLBLOGS { get; set; }
         public virtual DbSet<TBLCATEGORY> TBLCATEGORY { get; set; }
         public virtual DbSet<TBLCOMMENT> TBLCOMMENT { get; set; }
+        public virtual DbSet<TBLADMINROLE> TBLADMINROLE { get; set; }
         public virtual DbSet<TBLCONTACT> TBLCONTACT { get; set; }
     }
 }

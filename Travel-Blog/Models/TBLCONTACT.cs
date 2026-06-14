@@ -17,7 +17,7 @@ namespace Travel_Blog.Models
         public int ID { get; set; }
         public string MAP { get; set; }
         public string ADDRESS { get; set; }
-        public string TELEFON { get; set; }
+        public string PHONE { get; set; }
         public string EMAIL { get; set; }
     }
 }

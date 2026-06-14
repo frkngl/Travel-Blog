@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TravelBlogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TravelBlogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -49,9 +49,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ADMINISTRATOR" Type="nvarchar(max)" />
-          <Property Name="ASSISTANT" Type="nvarchar(max)" />
-          <Property Name="WRITER" Type="nvarchar(max)" />
+          <Property Name="ROLE" Type="nvarchar(max)" />
           <Property Name="STATUS" Type="bit" />
         </EntityType>
         <EntityType Name="TBLBLOGS">
@@ -92,7 +90,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MAP" Type="nvarchar(max)" />
           <Property Name="ADDRESS" Type="nvarchar(max)" />
-          <Property Name="TELEFON" Type="nvarchar(max)" />
+          <Property Name="PHONE" Type="nvarchar(max)" />
           <Property Name="EMAIL" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="FK_TBLADMIN_TBLADMINROLE">
@@ -169,8 +167,7 @@
             <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TravelBlogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -212,19 +209,8 @@
           <Property Name="PASSWORD" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IMAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ADMINROLEID" Type="Int32" />
-          <NavigationProperty Name="TBLADMINROLE" Relationship="Self.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMIN" ToRole="TBLADMINROLE" />
           <NavigationProperty Name="TBLBLOGS" Relationship="Self.FK_TBLBLOGS_TBLADMIN" FromRole="TBLADMIN" ToRole="TBLBLOGS" />
-        </EntityType>
-        <EntityType Name="TBLADMINROLE">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ADMINISTRATOR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ASSISTANT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="WRITER" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="STATUS" Type="Boolean" />
-          <NavigationProperty Name="TBLADMIN" Relationship="Self.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMINROLE" ToRole="TBLADMIN" />
+          <NavigationProperty Name="TBLADMINROLE" Relationship="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMIN" ToRole="TBLADMINROLE" />
         </EntityType>
         <EntityType Name="TBLBLOGS">
           <Key>
@@ -262,28 +248,6 @@
           <Property Name="STATUS" Type="Boolean" />
           <NavigationProperty Name="TBLBLOGS" Relationship="Self.FK_TBLBLOGS_TBLCOMMENT" FromRole="TBLCOMMENT" ToRole="TBLBLOGS" />
         </EntityType>
-        <EntityType Name="TBLCONTACT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MAP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ADDRESS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TELEFON" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_TBLADMIN_TBLADMINROLE">
-          <End Role="TBLADMINROLE" Type="Self.TBLADMINROLE" Multiplicity="0..1" />
-          <End Role="TBLADMIN" Type="Self.TBLADMIN" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLADMINROLE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TBLADMIN">
-              <PropertyRef Name="ADMINROLEID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TBLBLOGS_TBLADMIN">
           <End Role="TBLADMIN" Type="Self.TBLADMIN" Multiplicity="0..1" />
           <End Role="TBLBLOGS" Type="Self.TBLBLOGS" Multiplicity="*" />
@@ -324,15 +288,9 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TBLABOUT" EntityType="Self.TBLABOUT" />
           <EntitySet Name="TBLADMIN" EntityType="Self.TBLADMIN" />
-          <EntitySet Name="TBLADMINROLE" EntityType="Self.TBLADMINROLE" />
           <EntitySet Name="TBLBLOGS" EntityType="Self.TBLBLOGS" />
           <EntitySet Name="TBLCATEGORY" EntityType="Self.TBLCATEGORY" />
           <EntitySet Name="TBLCOMMENT" EntityType="Self.TBLCOMMENT" />
-          <EntitySet Name="TBLCONTACT" EntityType="Self.TBLCONTACT" />
-          <AssociationSet Name="FK_TBLADMIN_TBLADMINROLE" Association="Self.FK_TBLADMIN_TBLADMINROLE">
-            <End Role="TBLADMINROLE" EntitySet="TBLADMINROLE" />
-            <End Role="TBLADMIN" EntitySet="TBLADMIN" />
-          </AssociationSet>
           <AssociationSet Name="FK_TBLBLOGS_TBLADMIN" Association="Self.FK_TBLBLOGS_TBLADMIN">
             <End Role="TBLADMIN" EntitySet="TBLADMIN" />
             <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
@@ -345,7 +303,44 @@
             <End Role="TBLCOMMENT" EntitySet="TBLCOMMENT" />
             <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
           </AssociationSet>
+          <EntitySet Name="TBLADMINROLE" EntityType="TravelBlogModel.TBLADMINROLE" />
+          <AssociationSet Name="FK_TBLADMIN_TBLADMINROLE" Association="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE">
+            <End Role="TBLADMINROLE" EntitySet="TBLADMINROLE" />
+            <End Role="TBLADMIN" EntitySet="TBLADMIN" />
+          </AssociationSet>
+          <EntitySet Name="TBLCONTACT" EntityType="TravelBlogModel.TBLCONTACT" />
         </EntityContainer>
+        <EntityType Name="TBLADMINROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ROLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="STATUS" Type="Boolean" />
+          <NavigationProperty Name="TBLADMIN" Relationship="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMINROLE" ToRole="TBLADMIN" />
+        </EntityType>
+        <Association Name="FK_TBLADMIN_TBLADMINROLE">
+          <End Type="TravelBlogModel.TBLADMINROLE" Role="TBLADMINROLE" Multiplicity="0..1" />
+          <End Type="TravelBlogModel.TBLADMIN" Role="TBLADMIN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLADMINROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBLADMIN">
+              <PropertyRef Name="ADMINROLEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBLCONTACT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MAP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ADDRESS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -394,17 +389,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBLADMINROLE">
-            <EntityTypeMapping TypeName="TravelBlogModel.TBLADMINROLE">
-              <MappingFragment StoreEntitySet="TBLADMINROLE">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ADMINISTRATOR" ColumnName="ADMINISTRATOR" />
-                <ScalarProperty Name="ASSISTANT" ColumnName="ASSISTANT" />
-                <ScalarProperty Name="WRITER" ColumnName="WRITER" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBLBLOGS">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLBLOGS">
               <MappingFragment StoreEntitySet="TBLBLOGS">
@@ -439,14 +423,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TBLADMINROLE">
+            <EntityTypeMapping TypeName="TravelBlogModel.TBLADMINROLE">
+              <MappingFragment StoreEntitySet="TBLADMINROLE">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="ROLE" ColumnName="ROLE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TBLCONTACT">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLCONTACT">
               <MappingFragment StoreEntitySet="TBLCONTACT">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="MAP" ColumnName="MAP" />
-                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
-                <ScalarProperty Name="TELEFON" ColumnName="TELEFON" />
                 <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="MAP" ColumnName="MAP" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

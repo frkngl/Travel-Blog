@@ -34,6 +34,13 @@ namespace Travel_Blog
                 defaults: new { controller = "Home", action = "Contact" }
             );
 
+            // 4. 404 SAYFASI ROTASI
+            routes.MapRoute(
+            name: "PageNotFound",
+            url: "sayfa-bulunamadi",
+            defaults: new { controller = "Error", action = "NotFound" }
+            );
+
             // Varsayılan Rota (Buna dokunmuyoruz, site ilk açıldığında boş URL ile /Home/Index'e gitmeye devam eder)
             routes.MapRoute(
                 name: "Default",

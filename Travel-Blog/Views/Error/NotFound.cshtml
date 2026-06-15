@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Sayfa Bulunamadı / GülBlog";
+    Layout = "~/Views/Shared/User_Layout.cshtml";
+}
+
+<style>
+    /* Tasarımın dış kapsayıcısı: Yumuşak renk geçişi (Soft Gradient) burada uygulanıyor */
+    .blog-404-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+        /* Şeftali ve açık mavi/mor tonlarında çok yumuşak bir geçiş */
+        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        background: linear-gradient(135deg, #f6d36520 0%, #fda08520 100%); /* Pastel etki için şeffaflık eklendi */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        border-radius: 12px; /* Eğer layout içinde kalıyorsa kenarları yumuşatır */
+    }
+
+    /* İçerik Kartı: Blog havası veren, beyaz ve hafif gölgeli okuma alanı */
+    .blog-404-card {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 60px 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        max-width: 550px;
+        width: 100%;
+    }
+
+        .blog-404-card h1 {
+            font-size: 7rem;
+            color: #2c3e50;
+            margin: 0;
+            line-height: 1;
+            letter-spacing: -2px;
+            font-weight: 800;
+        }
+
+        .blog-404-card h2 {
+            font-size: 1.8rem;
+            color: #34495e;
+            margin: 15px 0 20px 0;
+            font-weight: 600;
+        }
+
+        .blog-404-card p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            line-height: 1.7;
+            margin-bottom: 35px;
+        }
+
+    /* Ana Sayfaya Dön Butonu: Yumuşak köşeli, zarif hover animasyonlu */
+    .btn-blog-home {
+        display: inline-block;
+        padding: 14px 32px;
+        background-color: #ff7e67; /* Tatlı bir somon/mercan rengi */
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 50px; /* Hap şeklinde buton */
+        font-weight: 600;
+        font-size: 1.05rem;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+        .btn-blog-home:hover {
+            background-color: #ff654a;
+            color: #ffffff;
+            text-decoration: none;
+            transform: translateY(-3px); /* Üzerine gelince hafif yukarı kalkma efekti */
+            box-shadow: 0 8px 20px rgba(255, 126, 103, 0.3);
+        }
+</style>
+
+<div class="blog-404-wrapper">
+    <div class="blog-404-card">
+        <h1>404</h1>
+        <h2>Bu sayfa uçup gitmiş gibi görünüyor!</h2>
+        <p>Okumak istediğiniz yazıya şu an ulaşılamıyor. Belki bağlantı değişmiştir ya da böyle bir içerik hiç var olmamıştır. En güncel yazılarımıza göz atmak için ana sayfaya dönebilirsiniz.</p>
+        <a href="@Url.Action("Index","Home")" class="btn-blog-home">Ana Sayfaya Dön</a>
+    </div>
+</div>

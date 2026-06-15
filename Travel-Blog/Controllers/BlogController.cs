@@ -15,7 +15,7 @@ namespace Travel_Blog.Controllers
         public ActionResult Index(string categoryName)
         {
             TableList data = new TableList();
-
+            data.AdminList = db.TBLADMIN.ToList();
             data.CategoryList = db.TBLCATEGORY.ToList();
                 var selected = data.CategoryList.FirstOrDefault(x =>
                     x.CATEGORYNAME.ToLower()

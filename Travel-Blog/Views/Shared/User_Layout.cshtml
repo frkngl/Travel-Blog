@@ -45,6 +45,7 @@
         var db = new Travel_Blog.Models.TravelBlogEntities();
         var contact = db.TBLCONTACT.FirstOrDefault();
         var social = db.TBLADMIN.FirstOrDefault();
+        var catogory = db.TBLCATEGORY.ToList();
     }
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container position-relative d-flex align-items-center justify-content-between">
@@ -62,10 +63,10 @@
                     <li class="dropdown">
                         <a href="#"><span>Kategoriler</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="category.html">Kültür</a></li>
-                            <li><a href="category.html">Kültür</a></li>
-                            <li><a href="category.html">Kültür</a></li>
-                            <li><a href="category.html">Kültür</a></li>
+                            @foreach (var item in catogory)
+                            {
+                                <li><a href="#">@item.CATEGORYNAME</a></li>
+                            }
                         </ul>
                     </li>
                     <li><a href="@Url.Action("Contact", "Home")">İletişim</a></li>
@@ -109,19 +110,19 @@
                     <div class="row">
                         <div class="col-6">
                             <ul class="list-unstyled">
-                                <li><a href="#">KÜLTÜR</a></li>
-                                <li><a href="#">İŞLETME</a></li>
-                                <li><a href="#">YAŞAM</a></li>
-                                <li><a href="#">SPOR</a></li>
+                                @foreach (var item in catogory.Take(4))
+                                {
+                                    <li><a href="#">@item.CATEGORYNAME</a></li>
+                                }
                             </ul>
                         </div>
 
                         <div class="col-6">
                             <ul class="list-unstyled">
-                                <li><a href="#">YEMEK</a></li>
-                                <li><a href="#">TEKNOLOJİ</a></li>
-                                <li><a href="#">GEZİ</a></li>
-                                <li><a href="#">TASARIM</a></li>
+                                @foreach (var item in catogory.Skip(4))
+                                {
+                                    <li><a href="#">@item.CATEGORYNAME</a></li>
+                                }
                             </ul>
                         </div>
                     </div>

@@ -63,7 +63,6 @@
           <Property Name="STATUS" Type="bit" />
           <Property Name="CATEGORYID" Type="int" />
           <Property Name="ADMINID" Type="int" />
-          <Property Name="COMMENTID" Type="int" />
           <Property Name="IMAGE" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TBLCATEGORY">
@@ -82,6 +81,7 @@
           <Property Name="DATE" Type="datetime" />
           <Property Name="COMMENT" Type="nvarchar(max)" />
           <Property Name="STATUS" Type="bit" />
+          <Property Name="BLOGID" Type="int" />
         </EntityType>
         <EntityType Name="TBLCONTACT">
           <Key>
@@ -129,15 +129,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TBLBLOGS_TBLCOMMENT">
-          <End Role="TBLCOMMENT" Type="Self.TBLCOMMENT" Multiplicity="0..1" />
-          <End Role="TBLBLOGS" Type="Self.TBLBLOGS" Multiplicity="*" />
+        <Association Name="FK_TBLCOMMENT_TBLBLOGS">
+          <End Role="TBLBLOGS" Type="Self.TBLBLOGS" Multiplicity="0..1" />
+          <End Role="TBLCOMMENT" Type="Self.TBLCOMMENT" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TBLCOMMENT">
+            <Principal Role="TBLBLOGS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TBLBLOGS">
-              <PropertyRef Name="COMMENTID" />
+            <Dependent Role="TBLCOMMENT">
+              <PropertyRef Name="BLOGID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -162,20 +162,46 @@
             <End Role="TBLCATEGORY" EntitySet="TBLCATEGORY" />
             <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
           </AssociationSet>
-          <AssociationSet Name="FK_TBLBLOGS_TBLCOMMENT" Association="Self.FK_TBLBLOGS_TBLCOMMENT">
-            <End Role="TBLCOMMENT" EntitySet="TBLCOMMENT" />
+          <AssociationSet Name="FK_TBLCOMMENT_TBLBLOGS" Association="Self.FK_TBLCOMMENT_TBLBLOGS">
             <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
+            <End Role="TBLCOMMENT" EntitySet="TBLCOMMENT" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TravelBlogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TravelBlogEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="TravelBlogModel.sysdiagrams" />
+          <EntitySet Name="TBLABOUT" EntityType="TravelBlogModel.TBLABOUT" />
+          <EntitySet Name="TBLADMIN" EntityType="TravelBlogModel.TBLADMIN" />
+          <EntitySet Name="TBLADMINROLE" EntityType="TravelBlogModel.TBLADMINROLE" />
+          <EntitySet Name="TBLBLOGS" EntityType="TravelBlogModel.TBLBLOGS" />
+          <EntitySet Name="TBLCATEGORY" EntityType="TravelBlogModel.TBLCATEGORY" />
+          <EntitySet Name="TBLCOMMENT" EntityType="TravelBlogModel.TBLCOMMENT" />
+          <EntitySet Name="TBLCONTACT" EntityType="TravelBlogModel.TBLCONTACT" />
+          <AssociationSet Name="FK_TBLADMIN_TBLADMINROLE" Association="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE">
+            <End Role="TBLADMINROLE" EntitySet="TBLADMINROLE" />
+            <End Role="TBLADMIN" EntitySet="TBLADMIN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLBLOGS_TBLADMIN" Association="TravelBlogModel.FK_TBLBLOGS_TBLADMIN">
+            <End Role="TBLADMIN" EntitySet="TBLADMIN" />
+            <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLBLOGS_TBLCATEGORY" Association="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY">
+            <End Role="TBLCATEGORY" EntitySet="TBLCATEGORY" />
+            <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLCOMMENT_TBLBLOGS" Association="TravelBlogModel.FK_TBLCOMMENT_TBLBLOGS">
+            <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
+            <End Role="TBLCOMMENT" EntitySet="TBLCOMMENT" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -209,8 +235,17 @@
           <Property Name="PASSWORD" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IMAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ADMINROLEID" Type="Int32" />
-          <NavigationProperty Name="TBLBLOGS" Relationship="Self.FK_TBLBLOGS_TBLADMIN" FromRole="TBLADMIN" ToRole="TBLBLOGS" />
           <NavigationProperty Name="TBLADMINROLE" Relationship="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMIN" ToRole="TBLADMINROLE" />
+          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" FromRole="TBLADMIN" ToRole="TBLBLOGS" />
+        </EntityType>
+        <EntityType Name="TBLADMINROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ROLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="STATUS" Type="Boolean" />
+          <NavigationProperty Name="TBLADMIN" Relationship="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMINROLE" ToRole="TBLADMIN" />
         </EntityType>
         <EntityType Name="TBLBLOGS">
           <Key>
@@ -223,11 +258,10 @@
           <Property Name="STATUS" Type="Boolean" />
           <Property Name="CATEGORYID" Type="Int32" />
           <Property Name="ADMINID" Type="Int32" />
-          <Property Name="COMMENTID" Type="Int32" />
           <Property Name="IMAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TBLADMIN" Relationship="Self.FK_TBLBLOGS_TBLADMIN" FromRole="TBLBLOGS" ToRole="TBLADMIN" />
-          <NavigationProperty Name="TBLCATEGORY" Relationship="Self.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLBLOGS" ToRole="TBLCATEGORY" />
-          <NavigationProperty Name="TBLCOMMENT" Relationship="Self.FK_TBLBLOGS_TBLCOMMENT" FromRole="TBLBLOGS" ToRole="TBLCOMMENT" />
+          <NavigationProperty Name="TBLADMIN" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" FromRole="TBLBLOGS" ToRole="TBLADMIN" />
+          <NavigationProperty Name="TBLCATEGORY" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLBLOGS" ToRole="TBLCATEGORY" />
+          <NavigationProperty Name="TBLCOMMENT" Relationship="TravelBlogModel.FK_TBLCOMMENT_TBLBLOGS" FromRole="TBLBLOGS" ToRole="TBLCOMMENT" />
         </EntityType>
         <EntityType Name="TBLCATEGORY">
           <Key>
@@ -235,7 +269,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CATEGORYNAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TBLBLOGS" Relationship="Self.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLCATEGORY" ToRole="TBLBLOGS" />
+          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLCATEGORY" ToRole="TBLBLOGS" />
         </EntityType>
         <EntityType Name="TBLCOMMENT">
           <Key>
@@ -246,78 +280,18 @@
           <Property Name="DATE" Type="DateTime" Precision="3" />
           <Property Name="COMMENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="STATUS" Type="Boolean" />
-          <NavigationProperty Name="TBLBLOGS" Relationship="Self.FK_TBLBLOGS_TBLCOMMENT" FromRole="TBLCOMMENT" ToRole="TBLBLOGS" />
+          <Property Name="BLOGID" Type="Int32" />
+          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLCOMMENT_TBLBLOGS" FromRole="TBLCOMMENT" ToRole="TBLBLOGS" />
         </EntityType>
-        <Association Name="FK_TBLBLOGS_TBLADMIN">
-          <End Role="TBLADMIN" Type="Self.TBLADMIN" Multiplicity="0..1" />
-          <End Role="TBLBLOGS" Type="Self.TBLBLOGS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLADMIN">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TBLBLOGS">
-              <PropertyRef Name="ADMINID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TBLBLOGS_TBLCATEGORY">
-          <End Role="TBLCATEGORY" Type="Self.TBLCATEGORY" Multiplicity="0..1" />
-          <End Role="TBLBLOGS" Type="Self.TBLBLOGS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLCATEGORY">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TBLBLOGS">
-              <PropertyRef Name="CATEGORYID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TBLBLOGS_TBLCOMMENT">
-          <End Role="TBLCOMMENT" Type="Self.TBLCOMMENT" Multiplicity="0..1" />
-          <End Role="TBLBLOGS" Type="Self.TBLBLOGS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBLCOMMENT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TBLBLOGS">
-              <PropertyRef Name="COMMENTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="TravelBlogEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="TBLABOUT" EntityType="Self.TBLABOUT" />
-          <EntitySet Name="TBLADMIN" EntityType="Self.TBLADMIN" />
-          <EntitySet Name="TBLBLOGS" EntityType="Self.TBLBLOGS" />
-          <EntitySet Name="TBLCATEGORY" EntityType="Self.TBLCATEGORY" />
-          <EntitySet Name="TBLCOMMENT" EntityType="Self.TBLCOMMENT" />
-          <AssociationSet Name="FK_TBLBLOGS_TBLADMIN" Association="Self.FK_TBLBLOGS_TBLADMIN">
-            <End Role="TBLADMIN" EntitySet="TBLADMIN" />
-            <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TBLBLOGS_TBLCATEGORY" Association="Self.FK_TBLBLOGS_TBLCATEGORY">
-            <End Role="TBLCATEGORY" EntitySet="TBLCATEGORY" />
-            <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TBLBLOGS_TBLCOMMENT" Association="Self.FK_TBLBLOGS_TBLCOMMENT">
-            <End Role="TBLCOMMENT" EntitySet="TBLCOMMENT" />
-            <End Role="TBLBLOGS" EntitySet="TBLBLOGS" />
-          </AssociationSet>
-          <EntitySet Name="TBLADMINROLE" EntityType="TravelBlogModel.TBLADMINROLE" />
-          <AssociationSet Name="FK_TBLADMIN_TBLADMINROLE" Association="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE">
-            <End Role="TBLADMINROLE" EntitySet="TBLADMINROLE" />
-            <End Role="TBLADMIN" EntitySet="TBLADMIN" />
-          </AssociationSet>
-          <EntitySet Name="TBLCONTACT" EntityType="TravelBlogModel.TBLCONTACT" />
-        </EntityContainer>
-        <EntityType Name="TBLADMINROLE">
+        <EntityType Name="TBLCONTACT">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ROLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="STATUS" Type="Boolean" />
-          <NavigationProperty Name="TBLADMIN" Relationship="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMINROLE" ToRole="TBLADMIN" />
+          <Property Name="MAP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ADDRESS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_TBLADMIN_TBLADMINROLE">
           <End Type="TravelBlogModel.TBLADMINROLE" Role="TBLADMINROLE" Multiplicity="0..1" />
@@ -331,17 +305,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TBLCONTACT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MAP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ADDRESS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PHONE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-      </Schema>
+        <Association Name="FK_TBLBLOGS_TBLADMIN">
+          <End Type="TravelBlogModel.TBLADMIN" Role="TBLADMIN" Multiplicity="0..1" />
+          <End Type="TravelBlogModel.TBLBLOGS" Role="TBLBLOGS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLADMIN">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBLBLOGS">
+              <PropertyRef Name="ADMINID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBLBLOGS_TBLCATEGORY">
+          <End Type="TravelBlogModel.TBLCATEGORY" Role="TBLCATEGORY" Multiplicity="0..1" />
+          <End Type="TravelBlogModel.TBLBLOGS" Role="TBLBLOGS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLCATEGORY">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBLBLOGS">
+              <PropertyRef Name="CATEGORYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBLCOMMENT_TBLBLOGS">
+          <End Type="TravelBlogModel.TBLBLOGS" Role="TBLBLOGS" Multiplicity="0..1" />
+          <End Type="TravelBlogModel.TBLCOMMENT" Role="TBLCOMMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLBLOGS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBLCOMMENT">
+              <PropertyRef Name="BLOGID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -350,76 +350,42 @@
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="TravelBlogModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TBLABOUT">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLABOUT">
               <MappingFragment StoreEntitySet="TBLABOUT">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TITLE" ColumnName="TITLE" />
-                <ScalarProperty Name="ALTTITLE" ColumnName="ALTTITLE" />
-                <ScalarProperty Name="LİST1" ColumnName="LİST1" />
-                <ScalarProperty Name="LİST2" ColumnName="LİST2" />
-                <ScalarProperty Name="LİST3" ColumnName="LİST3" />
-                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
-                <ScalarProperty Name="IMAGE2" ColumnName="IMAGE2" />
                 <ScalarProperty Name="IMAGE3" ColumnName="IMAGE3" />
+                <ScalarProperty Name="IMAGE2" ColumnName="IMAGE2" />
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="LİST3" ColumnName="LİST3" />
+                <ScalarProperty Name="LİST2" ColumnName="LİST2" />
+                <ScalarProperty Name="LİST1" ColumnName="LİST1" />
+                <ScalarProperty Name="ALTTITLE" ColumnName="ALTTITLE" />
+                <ScalarProperty Name="TITLE" ColumnName="TITLE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TBLADMIN">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLADMIN">
               <MappingFragment StoreEntitySet="TBLADMIN">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NAME_AND_SURNAME" ColumnName="NAME_AND_SURNAME" />
-                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
-                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
-                <ScalarProperty Name="TWITTER" ColumnName="TWITTER" />
-                <ScalarProperty Name="INSTAGRAM" ColumnName="INSTAGRAM" />
-                <ScalarProperty Name="LINKEDIN" ColumnName="LINKEDIN" />
-                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
-                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
                 <ScalarProperty Name="ADMINROLEID" ColumnName="ADMINROLEID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBLBLOGS">
-            <EntityTypeMapping TypeName="TravelBlogModel.TBLBLOGS">
-              <MappingFragment StoreEntitySet="TBLBLOGS">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TITLE" ColumnName="TITLE" />
-                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
-                <ScalarProperty Name="DATE" ColumnName="DATE" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="CATEGORYID" ColumnName="CATEGORYID" />
-                <ScalarProperty Name="ADMINID" ColumnName="ADMINID" />
-                <ScalarProperty Name="COMMENTID" ColumnName="COMMENTID" />
                 <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBLCATEGORY">
-            <EntityTypeMapping TypeName="TravelBlogModel.TBLCATEGORY">
-              <MappingFragment StoreEntitySet="TBLCATEGORY">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CATEGORYNAME" ColumnName="CATEGORYNAME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBLCOMMENT">
-            <EntityTypeMapping TypeName="TravelBlogModel.TBLCOMMENT">
-              <MappingFragment StoreEntitySet="TBLCOMMENT">
-                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="LINKEDIN" ColumnName="LINKEDIN" />
+                <ScalarProperty Name="INSTAGRAM" ColumnName="INSTAGRAM" />
+                <ScalarProperty Name="TWITTER" ColumnName="TWITTER" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
                 <ScalarProperty Name="NAME_AND_SURNAME" ColumnName="NAME_AND_SURNAME" />
-                <ScalarProperty Name="DATE" ColumnName="DATE" />
-                <ScalarProperty Name="COMMENT" ColumnName="COMMENT" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -428,6 +394,40 @@
               <MappingFragment StoreEntitySet="TBLADMINROLE">
                 <ScalarProperty Name="STATUS" ColumnName="STATUS" />
                 <ScalarProperty Name="ROLE" ColumnName="ROLE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLBLOGS">
+            <EntityTypeMapping TypeName="TravelBlogModel.TBLBLOGS">
+              <MappingFragment StoreEntitySet="TBLBLOGS">
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="ADMINID" ColumnName="ADMINID" />
+                <ScalarProperty Name="CATEGORYID" ColumnName="CATEGORYID" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="DATE" ColumnName="DATE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="TITLE" ColumnName="TITLE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLCATEGORY">
+            <EntityTypeMapping TypeName="TravelBlogModel.TBLCATEGORY">
+              <MappingFragment StoreEntitySet="TBLCATEGORY">
+                <ScalarProperty Name="CATEGORYNAME" ColumnName="CATEGORYNAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLCOMMENT">
+            <EntityTypeMapping TypeName="TravelBlogModel.TBLCOMMENT">
+              <MappingFragment StoreEntitySet="TBLCOMMENT">
+                <ScalarProperty Name="BLOGID" ColumnName="BLOGID" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="COMMENT" ColumnName="COMMENT" />
+                <ScalarProperty Name="DATE" ColumnName="DATE" />
+                <ScalarProperty Name="NAME_AND_SURNAME" ColumnName="NAME_AND_SURNAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

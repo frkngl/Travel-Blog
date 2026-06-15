@@ -14,19 +14,13 @@ namespace Travel_Blog.Models
     
     public partial class TBLCOMMENT
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TBLCOMMENT()
-        {
-            this.TBLBLOGS = new HashSet<TBLBLOGS>();
-        }
-    
         public int ID { get; set; }
         public string NAME_AND_SURNAME { get; set; }
         public Nullable<System.DateTime> DATE { get; set; }
         public string COMMENT { get; set; }
         public Nullable<bool> STATUS { get; set; }
+        public Nullable<int> BLOGID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBLBLOGS> TBLBLOGS { get; set; }
+        public virtual TBLBLOGS TBLBLOGS { get; set; }
     }
 }

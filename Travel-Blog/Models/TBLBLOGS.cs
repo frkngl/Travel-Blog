@@ -14,6 +14,12 @@ namespace Travel_Blog.Models
     
     public partial class TBLBLOGS
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TBLBLOGS()
+        {
+            this.TBLCOMMENT = new HashSet<TBLCOMMENT>();
+        }
+    
         public int ID { get; set; }
         public string TITLE { get; set; }
         public string DESCRIPTION { get; set; }
@@ -21,11 +27,11 @@ namespace Travel_Blog.Models
         public Nullable<bool> STATUS { get; set; }
         public Nullable<int> CATEGORYID { get; set; }
         public Nullable<int> ADMINID { get; set; }
-        public Nullable<int> COMMENTID { get; set; }
         public string IMAGE { get; set; }
     
         public virtual TBLADMIN TBLADMIN { get; set; }
         public virtual TBLCATEGORY TBLCATEGORY { get; set; }
-        public virtual TBLCOMMENT TBLCOMMENT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBLCOMMENT> TBLCOMMENT { get; set; }
     }
 }

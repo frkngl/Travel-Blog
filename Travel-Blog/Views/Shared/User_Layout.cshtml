@@ -57,7 +57,11 @@
                         <ul>
                             @foreach (var item in catogory)
                             {
-                                <li><a href="#">@item.CATEGORYNAME</a></li>
+                                string seoUrl = item.CATEGORYNAME.ToLower()
+                                .Replace("ş", "s").Replace("ç", "c").Replace("ı", "i")
+                                .Replace("ğ", "g").Replace("ö", "o").Replace("ü", "u")
+                                .Replace(" ", "-");
+                                <li><a href="@Url.Action("Index","Blog", new { categoryName = seoUrl})">@item.CATEGORYNAME</a></li>
                             }
                         </ul>
                     </li>
@@ -104,7 +108,11 @@
                             <ul class="list-unstyled">
                                 @foreach (var item in catogory.Take(4))
                                 {
-                                    <li><a href="#">@item.CATEGORYNAME</a></li>
+                                    string seoUrl = item.CATEGORYNAME.ToLower()
+                                    .Replace("ş", "s").Replace("ç", "c").Replace("ı", "i")
+                                    .Replace("ğ", "g").Replace("ö", "o").Replace("ü", "u")
+                                    .Replace(" ", "-");
+                                    <li><a href="@Url.Action("Index","Blog", new { categoryName = seoUrl})">@item.CATEGORYNAME</a></li>
                                 }
                             </ul>
                         </div>
@@ -113,7 +121,11 @@
                             <ul class="list-unstyled">
                                 @foreach (var item in catogory.Skip(4))
                                 {
-                                    <li><a href="#">@item.CATEGORYNAME</a></li>
+                                    string seoUrl = item.CATEGORYNAME.ToLower()
+                                    .Replace("ş", "s").Replace("ç", "c").Replace("ı", "i")
+                                    .Replace("ğ", "g").Replace("ö", "o").Replace("ü", "u")
+                                    .Replace(" ", "-");
+                                    <li><a href="@Url.Action("Index","Blog", new { categoryName = seoUrl})">@item.CATEGORYNAME</a></li>
                                 }
                             </ul>
                         </div>

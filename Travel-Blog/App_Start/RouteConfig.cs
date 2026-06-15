@@ -41,6 +41,12 @@ namespace Travel_Blog
             defaults: new { controller = "Error", action = "NotFound" }
             );
 
+            routes.MapRoute(
+            name: "CategoryRoute",
+            url: "{categoryName}",
+            defaults: new { controller = "Blog", action = "Index", categoryName = UrlParameter.Optional }
+            );
+
             // Varsayılan Rota (Buna dokunmuyoruz, site ilk açıldığında boş URL ile /Home/Index'e gitmeye devam eder)
             routes.MapRoute(
                 name: "Default",

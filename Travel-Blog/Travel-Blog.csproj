@@ -355,6 +355,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="SQL\TravelBlog.bak" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

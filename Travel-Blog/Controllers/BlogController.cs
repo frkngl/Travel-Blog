@@ -14,13 +14,15 @@ namespace Travel_Blog.Controllers
         TravelBlogEntities db = new TravelBlogEntities();
         TableList data = new TableList();
         // GET: Blog
-        public ActionResult Index(string categoryName, int? page)
+        public ActionResult Index(string categoryName, string searchString, int? page)
         {
+            // data tanımlamaların ve listelerin...
             data.AdminList = db.TBLADMIN.ToList();
             data.CategoryList = db.TBLCATEGORY.ToList();
 
             var query = db.TBLBLOGS.AsQueryable();
 
+            // -- MEVCUT KATEGORİ FİLTRELEMESİ --
             if (!string.IsNullOrEmpty(categoryName))
             {
                 var selected = data.CategoryList.FirstOrDefault(x =>
@@ -35,6 +37,12 @@ namespace Travel_Blog.Controllers
                     data.ActiveCategoryName = selected.CATEGORYNAME;
                 }
             }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(x => x.TITLE.Contains(searchString) || x.DESCRIPTION.Contains(searchString));
+            }
+
+            ViewBag.CurrentSearch = searchString;
 
             int pageSize = 6;
             int pageNumber = (page ?? 1);

@@ -367,6 +367,8 @@
     <Content Include="SQL\TravelBlog.bak" />
     <Content Include="Views\Blog\Index.cshtml" />
     <Content Include="Views\Blog\BlogDetail.cshtml" />
+    <Content Include="Views\Blog\GetRecentBlogs.cshtml" />
+    <Content Include="Views\Blog\GetCategories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

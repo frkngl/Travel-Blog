@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Travel_Blog.Models.TBLBLOGS>
+
+<div class="recent-posts-widget widget-item">
+    <h3 class="widget-title">Karışık Postlar</h3>
+
+    @foreach (var item in Model)
+    {
+        <div class="post-item">
+            <img src="~/webimage/@item.IMAGE" alt="@item.TITLE" class="flex-shrink-0" style="width: 120px; height: 80px; object-fit: cover;">
+            <div>
+                <h4>
+                    <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(item.TITLE) })">
+                        @item.TITLE
+                    </a>
+                </h4>
+                <time datetime="@item.DATE.Value.ToString("yyyy-MM-dd")">@item.DATE.Value.ToString("dd.MM.yyyy")</time>
+            </div>
+        </div>}
+</div>

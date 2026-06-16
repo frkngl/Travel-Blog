@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Travel_Blog.Models.TBLCATEGORY>
+
+<div class="tags-widget widget-item">
+    <h3 class="widget-title">Kategoriler</h3>
+    <ul>
+        @foreach (var item in Model)
+        {
+            string seoUrl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(item.CATEGORYNAME);
+            <li><a href="@Url.Action("Index", "Blog", new { categoryName = seoUrl })">@item.CATEGORYNAME</a></li>
+        }
+    </ul>
+</div>

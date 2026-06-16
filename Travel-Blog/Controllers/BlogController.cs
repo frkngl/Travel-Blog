@@ -66,5 +66,19 @@ namespace Travel_Blog.Controllers
             }
             return View(blogDetail);
         }
+
+        [ChildActionOnly]
+        public PartialViewResult GetRecentBlogs()
+        {
+            var randomBlogs = db.TBLBLOGS.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+            return PartialView(randomBlogs);
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult GetCategories()
+        {
+            var categories = db.TBLCATEGORY.ToList();
+            return PartialView(categories);
+        }
     }
 }

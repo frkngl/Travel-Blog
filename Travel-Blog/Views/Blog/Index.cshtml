@@ -11,7 +11,7 @@
     <!-- Page Title -->
     <div class="page-title position-relative">
         <div class="container d-lg-flex justify-content-between align-items-center">
-            <h1 class="mb-2 mb-lg-0">Kategori</h1>
+            <h1 class="mb-2 mb-lg-0">@Model.ActiveCategoryName</h1>
             <nav class="breadcrumbs">
                 <ol>
                     <li><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
@@ -151,35 +151,9 @@
 
                         </form>
                     </div>
-                    <!-- Recent Posts Widget -->
-                    <div class="recent-posts-widget widget-item">
-
-                        <h3 class="widget-title">Karışık Postlar</h3>
-
-                        @foreach (var item in Model.BlogsList.OrderByDescending(x => Guid.NewGuid()).Take(5))
-                        {
-                            <div class="post-item">
-                                <img src="~/webimage/@item.IMAGE" alt="@item.TITLE" class="flex-shrink-0" style="width: 120px; height: 80px; object-fit: cover;">
-                                <div>
-                                    <h4><a href="blog-details.html">@item.TITLE</a></h4>
-                                    <time datetime="2020-01-01">@item.DATE.Value.ToString("dd.MM.yyyy")</time>
-                                </div>
-                            </div><!-- End recent post item-->
-                        }
-
-                    </div><!--/Recent Posts Widget -->
+                    @Html.Action("GetRecentBlogs", "Blog")
                     <!-- Tags Widget -->
-                    <div class="tags-widget widget-item">
-                        <h3 class="widget-title">Kategoriler</h3>
-                        <ul>
-                            @foreach (var item in Model.CategoryList)
-                            {
-                                string seoUrl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(item.CATEGORYNAME);
-
-                                <li><a href="@Url.Action("Index", "Blog", new { categoryName = seoUrl })">@item.CATEGORYNAME</a></li>
-                            }
-                        </ul>
-                    </div>
+                    @Html.Action("GetCategories", "Blog")
                 </div>
 
             </div>

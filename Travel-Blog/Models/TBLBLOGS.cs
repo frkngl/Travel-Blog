@@ -28,6 +28,8 @@ namespace Travel_Blog.Models
         public Nullable<int> CATEGORYID { get; set; }
         public Nullable<int> ADMINID { get; set; }
         public string IMAGE { get; set; }
+        public string DESCRIPTION2 { get; set; }
+        public string DESCRIPTION3 { get; set; }
     
         public virtual TBLADMIN TBLADMIN { get; set; }
         public virtual TBLCATEGORY TBLCATEGORY { get; set; }

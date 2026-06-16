@@ -28,9 +28,9 @@ namespace Travel_Blog.Controllers
 
         public ActionResult Index(string categoryName, string searchString, int? page)
         {
-            data.AdminList = db.TBLADMIN.ToList();
+            data.AdminList = db.TBLADMIN.Where(x=>x.STATUS == true).ToList();
             data.CategoryList = db.TBLCATEGORY.ToList();
-            var query = db.TBLBLOGS.AsQueryable();
+            var query = db.TBLBLOGS.Where(x => x.STATUS == true).AsQueryable();
             if (!string.IsNullOrEmpty(categoryName))
             {
                 var selected = data.CategoryList.FirstOrDefault(x => SeoUrlCreate(x.CATEGORYNAME) == categoryName);
@@ -58,7 +58,7 @@ namespace Travel_Blog.Controllers
             {
                 return RedirectToAction("Index");
             }
-            var blogList = db.TBLBLOGS.ToList();
+            var blogList = db.TBLBLOGS.Where(x => x.STATUS == true).ToList();
             var blogDetail = blogList.FirstOrDefault(x => SeoUrlCreate(x.TITLE) == seourl);
             if (blogDetail == null)
             {
@@ -70,7 +70,7 @@ namespace Travel_Blog.Controllers
         [ChildActionOnly]
         public PartialViewResult GetRecentBlogs()
         {
-            var randomBlogs = db.TBLBLOGS.OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+            var randomBlogs = db.TBLBLOGS.Where(x => x.STATUS == true).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
             return PartialView(randomBlogs);
         }
 

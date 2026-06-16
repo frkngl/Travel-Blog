@@ -204,11 +204,47 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="webimage\blog1.jpg" />
+    <Content Include="webimage\blog10.jpg" />
+    <Content Include="webimage\blog11.jpg" />
+    <Content Include="webimage\blog12.jpg" />
+    <Content Include="webimage\blog13.jpg" />
+    <Content Include="webimage\blog14.jpg" />
+    <Content Include="webimage\blog15.jpg" />
+    <Content Include="webimage\blog16.jpg" />
+    <Content Include="webimage\blog17.jpg" />
+    <Content Include="webimage\blog18.jpg" />
+    <Content Include="webimage\blog19.jpg" />
+    <Content Include="webimage\blog2.jpg" />
+    <Content Include="webimage\blog20.jpg" />
+    <Content Include="webimage\blog21.jpg" />
+    <Content Include="webimage\blog22.jpg" />
+    <Content Include="webimage\blog23.jpg" />
+    <Content Include="webimage\blog24.jpg" />
+    <Content Include="webimage\blog25.jpg" />
+    <Content Include="webimage\blog26.jpg" />
+    <Content Include="webimage\blog27.jpg" />
+    <Content Include="webimage\blog28.jpg" />
+    <Content Include="webimage\blog29.jpg" />
+    <Content Include="webimage\blog3.jpg" />
+    <Content Include="webimage\blog30.jpg" />
+    <Content Include="webimage\blog31.jpg" />
+    <Content Include="webimage\blog32.jpg" />
+    <Content Include="webimage\blog33.jpg" />
+    <Content Include="webimage\blog34.jpg" />
+    <Content Include="webimage\blog35.jpg" />
+    <Content Include="webimage\blog4.jpg" />
+    <Content Include="webimage\blog5.jpg" />
+    <Content Include="webimage\blog6.jpg" />
+    <Content Include="webimage\blog7.jpg" />
+    <Content Include="webimage\blog8.jpg" />
+    <Content Include="webimage\blog9.jpg" />
     <Content Include="webimage\footer.jpg" />
     <Content Include="webimage\about1.jpg" />
     <Content Include="webimage\about2.jpg" />
     <Content Include="webimage\about3.jpg" />
     <Content Include="webimage\admin.jpg" />
+    <Content Include="webimage\user.jpg" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -364,11 +400,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
-    <Content Include="SQL\TravelBlog.bak" />
     <Content Include="Views\Blog\Index.cshtml" />
     <Content Include="Views\Blog\BlogDetail.cshtml" />
     <Content Include="Views\Blog\GetRecentBlogs.cshtml" />
     <Content Include="Views\Blog\GetCategories.cshtml" />
+    <Content Include="SQL\TravelBlog.bak" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

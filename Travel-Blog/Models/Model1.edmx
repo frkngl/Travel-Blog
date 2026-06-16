@@ -43,6 +43,7 @@
           <Property Name="PASSWORD" Type="nvarchar(max)" />
           <Property Name="IMAGE" Type="nvarchar(max)" />
           <Property Name="ADMINROLEID" Type="int" />
+          <Property Name="STATUS" Type="bit" />
         </EntityType>
         <EntityType Name="TBLADMINROLE">
           <Key>
@@ -64,6 +65,8 @@
           <Property Name="CATEGORYID" Type="int" />
           <Property Name="ADMINID" Type="int" />
           <Property Name="IMAGE" Type="nvarchar(max)" />
+          <Property Name="DESCRIPTION2" Type="nvarchar(max)" />
+          <Property Name="DESCRIPTION3" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TBLCATEGORY">
           <Key>
@@ -237,6 +240,7 @@
           <Property Name="ADMINROLEID" Type="Int32" />
           <NavigationProperty Name="TBLADMINROLE" Relationship="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMIN" ToRole="TBLADMINROLE" />
           <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" FromRole="TBLADMIN" ToRole="TBLBLOGS" />
+          <Property Name="STATUS" Type="Boolean" />
         </EntityType>
         <EntityType Name="TBLADMINROLE">
           <Key>
@@ -262,6 +266,8 @@
           <NavigationProperty Name="TBLADMIN" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" FromRole="TBLBLOGS" ToRole="TBLADMIN" />
           <NavigationProperty Name="TBLCATEGORY" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLBLOGS" ToRole="TBLCATEGORY" />
           <NavigationProperty Name="TBLCOMMENT" Relationship="TravelBlogModel.FK_TBLCOMMENT_TBLBLOGS" FromRole="TBLBLOGS" ToRole="TBLCOMMENT" />
+          <Property Name="DESCRIPTION2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRIPTION3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TBLCATEGORY">
           <Key>
@@ -376,6 +382,7 @@
           <EntitySetMapping Name="TBLADMIN">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLADMIN">
               <MappingFragment StoreEntitySet="TBLADMIN">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
                 <ScalarProperty Name="ADMINROLEID" ColumnName="ADMINROLEID" />
                 <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
                 <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
@@ -401,6 +408,8 @@
           <EntitySetMapping Name="TBLBLOGS">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLBLOGS">
               <MappingFragment StoreEntitySet="TBLBLOGS">
+                <ScalarProperty Name="DESCRIPTION3" ColumnName="DESCRIPTION3" />
+                <ScalarProperty Name="DESCRIPTION2" ColumnName="DESCRIPTION2" />
                 <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
                 <ScalarProperty Name="ADMINID" ColumnName="ADMINID" />
                 <ScalarProperty Name="CATEGORYID" ColumnName="CATEGORYID" />

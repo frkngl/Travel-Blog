@@ -30,6 +30,7 @@ namespace Travel_Blog.Models
         public string PASSWORD { get; set; }
         public string IMAGE { get; set; }
         public Nullable<int> ADMINROLEID { get; set; }
+        public Nullable<bool> STATUS { get; set; }
     
         public virtual TBLADMINROLE TBLADMINROLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

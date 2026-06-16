@@ -18,9 +18,7 @@ namespace Travel_Blog.Controllers
         // 404 Hataları için
         public ActionResult NotFound()
         {
-            // Arama motorlarının bu sayfanın 404 olduğunu anlaması için status code dönüyoruz
             Response.StatusCode = 404;
-            // IIS'in kendi varsayılan hata sayfasını ezmesini engelliyoruz
             Response.TrySkipIisCustomErrors = true;
 
             return View();

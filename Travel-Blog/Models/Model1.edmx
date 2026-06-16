@@ -74,6 +74,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CATEGORYNAME" Type="nvarchar(max)" />
+          <Property Name="STATUS" Type="bit" />
         </EntityType>
         <EntityType Name="TBLCOMMENT">
           <Key>
@@ -85,6 +86,7 @@
           <Property Name="COMMENT" Type="nvarchar(max)" />
           <Property Name="STATUS" Type="bit" />
           <Property Name="BLOGID" Type="int" />
+          <Property Name="EMAIL" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TBLCONTACT">
           <Key>
@@ -276,6 +278,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CATEGORYNAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLCATEGORY" ToRole="TBLBLOGS" />
+          <Property Name="STATUS" Type="Boolean" />
         </EntityType>
         <EntityType Name="TBLCOMMENT">
           <Key>
@@ -288,6 +291,7 @@
           <Property Name="STATUS" Type="Boolean" />
           <Property Name="BLOGID" Type="Int32" />
           <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLCOMMENT_TBLBLOGS" FromRole="TBLCOMMENT" ToRole="TBLBLOGS" />
+          <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TBLCONTACT">
           <Key>
@@ -424,6 +428,7 @@
           <EntitySetMapping Name="TBLCATEGORY">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLCATEGORY">
               <MappingFragment StoreEntitySet="TBLCATEGORY">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
                 <ScalarProperty Name="CATEGORYNAME" ColumnName="CATEGORYNAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -432,6 +437,7 @@
           <EntitySetMapping Name="TBLCOMMENT">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLCOMMENT">
               <MappingFragment StoreEntitySet="TBLCOMMENT">
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
                 <ScalarProperty Name="BLOGID" ColumnName="BLOGID" />
                 <ScalarProperty Name="STATUS" ColumnName="STATUS" />
                 <ScalarProperty Name="COMMENT" ColumnName="COMMENT" />

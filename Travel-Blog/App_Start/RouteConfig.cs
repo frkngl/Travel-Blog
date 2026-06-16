@@ -46,10 +46,10 @@ namespace Travel_Blog
             routes.MapRoute(
                 name: "BlogDetailRoute",
                 url: "blog/{seourl}",
-                defaults: new { controller = "Blog", action = "BlogDetail" }
+                defaults: new { controller = "Blog", action = "BlogDetail" },
+                constraints: new { httpMethod = new HttpMethodConstraint("GET") }
             );
 
-            // Varsayılan Rota (Buna dokunmuyoruz, site ilk açıldığında boş URL ile /Home/Index'e gitmeye devam eder)
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

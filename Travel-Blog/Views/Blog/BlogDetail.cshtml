@@ -76,11 +76,10 @@
 
                     <div class="container">
 
-                        <h4 class="comments-count">@Model.TBLCOMMENT.Count() Yorumlar</h4>
+                        <h4 class="comments-count">@Model.TBLCOMMENT.Where(x=>x.STATUS == true).Count() Yorumlar</h4>
 
                         @{ 
-                            int id = 1;
-                            var comments = Model.TBLCOMMENT.Where(x => x.STATUS == true && x.BLOGID == id).ToList();
+                            var comments = Model.TBLCOMMENT.Where(x => x.STATUS == true && x.BLOGID == Model.ID).ToList();
                         }
 
                         @foreach (var y in comments)
@@ -89,7 +88,7 @@
                                 <div class="d-flex">
                                     <div class="comment-img"><img src="~/webimage/user.jpg"></div>
                                     <div>
-                                        <h5><a href="">@y.NAME_AND_SURNAME</a> 
+                                        <h5><a href="">@y.NAME_AND_SURNAME</a></h5>
                                         <time datetime="2020-01-01">@y.DATE.Value.ToString("dd.MM.yyyy")</time>
                                         <p>
                                            @y.COMMENT
@@ -104,38 +103,50 @@
                 <!-- Comment Form Section -->
                 <section id="comment-form" class="comment-form section">
                     <div class="container">
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @TempData["ErrorMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        <form action="@Url.Action("LeaveComment", "Blog")" method="post">
 
-                        <form action="">
+                            <input type="hidden" name="BLOGID" value="@Model.ID" />
 
-                            <h4>Post Comment</h4>
-                            <p>Your email address will not be published. Required fields are marked * </p>
+                            <h4>Yorum Gönder</h4>
+                            <p>E-posta adresiniz yayınlanmayacak. Gerekli alanlar * ile işaretlenmiştir.</p>
+
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    <input name="name" type="text" class="form-control" placeholder="Your Name*">
+                                    <input name="NAME_AND_SURNAME" type="text" class="form-control" placeholder="Ad ve Soyad*" required>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <input name="email" type="text" class="form-control" placeholder="Your Email*">
+                                    <input name="EMAIL" type="email" class="form-control" placeholder="Mail*" required>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col form-group">
-                                    <input name="website" type="text" class="form-control" placeholder="Your Website">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col form-group">
-                                    <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
+                                    <textarea name="COMMENT" class="form-control" placeholder="Yorum*" required></textarea>
                                 </div>
                             </div>
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Post Comment</button>
+                                <button type="submit" class="btn btn-primary">Gönder</button>
                             </div>
 
                         </form>
 
                     </div>
-                </section><!-- /Comment Form Section -->
+                </section>
 
             </div>
 

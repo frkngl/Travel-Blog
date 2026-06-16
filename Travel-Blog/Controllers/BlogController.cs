@@ -80,5 +80,42 @@ namespace Travel_Blog.Controllers
             var categories = db.TBLCATEGORY.ToList();
             return PartialView(categories);
         }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult LeaveComment(TBLCOMMENT newComment)
+        {
+            try
+            {
+                ModelState.Clear();
+                if (newComment != null)
+                {
+                    newComment.DATE = DateTime.Now;
+                    newComment.STATUS = false;
+
+                    db.TBLCOMMENT.Add(newComment);
+                    db.SaveChanges();
+
+                    TempData["SuccessMessage"] = "Yorumunuz başarıyla gönderildi, onaylandıktan sonra yayınlanacaktır.";
+                }
+                if (newComment != null && newComment.BLOGID > 0)
+                {
+                    var blog = db.TBLBLOGS.Find(newComment.BLOGID);
+
+                    if (blog != null)
+                    {
+                        string seoLink = SeoUrlCreate(blog.TITLE);
+                        return RedirectToAction("BlogDetail", "Blog", new { seourl = seoLink });
+                    }
+                }
+
+                return RedirectToAction("Index", "Blog");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Kayıt Hatası: " + ex.Message;
+                return RedirectToAction("Index", "Blog");
+            }
+        }
     }
 }

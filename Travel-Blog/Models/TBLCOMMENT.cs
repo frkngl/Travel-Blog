@@ -20,6 +20,7 @@ namespace Travel_Blog.Models
         public string COMMENT { get; set; }
         public Nullable<bool> STATUS { get; set; }
         public Nullable<int> BLOGID { get; set; }
+        public string EMAIL { get; set; }
     
         public virtual TBLBLOGS TBLBLOGS { get; set; }
     }

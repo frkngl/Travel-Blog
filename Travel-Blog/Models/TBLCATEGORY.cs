@@ -22,6 +22,7 @@ namespace Travel_Blog.Models
     
         public int ID { get; set; }
         public string CATEGORYNAME { get; set; }
+        public Nullable<bool> STATUS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBLBLOGS> TBLBLOGS { get; set; }

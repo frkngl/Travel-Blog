@@ -1,4 +1,6 @@
-﻿@model Travel_Blog.Models.TableList
+﻿@using PagedList
+@using PagedList.Mvc
+@model Travel_Blog.Models.TableList
 @{
     ViewBag.Title = Model.ActiveCategoryName + " / GülBlog";
     Layout = "~/Views/Shared/User_Layout.cshtml";
@@ -72,23 +74,24 @@
                 </section>
                 <!-- Blog Pagination Section -->
                 <section id="blog-pagination" class="blog-pagination section">
-
                     <div class="container">
                         <div class="d-flex justify-content-center">
-                            <ul>
-                                <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#" class="active">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li>...</li>
-                                <li><a href="#">10</a></li>
-                                <li><a href="#"><i class="bi bi-chevron-right"></i></a></li>
-                            </ul>
+
+                            @Html.PagedListPager(Model.BlogsList, page => Url.Action("Index", new { page, categoryName = ViewContext.RouteData.Values["categoryName"] }),
+                                     new PagedListRenderOptions
+                                     {
+                                         LiElementClasses = new string[] { "page-item" },
+                                         FunctionToTransformEachPageLink = (liTag, aTag) =>
+                                         {
+                                             aTag.Attributes.Add("class", "page-link");
+                                             liTag.InnerHtml = aTag.ToString();
+                                             return liTag;
+                                         }
+                                     })
+
                         </div>
                     </div>
-
-                </section><!-- /Blog Pagination Section -->
+                </section>
 
             </div>
 
@@ -120,7 +123,7 @@
                     <!-- Search Widget -->
                     <div class="search-widget widget-item">
 
-                        <h3 class="widget-title">Search</h3>
+                        <h3 class="widget-title">Arama</h3>
                         <form action="">
                             <input type="text">
                             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
@@ -130,47 +133,18 @@
                     <!-- Recent Posts Widget -->
                     <div class="recent-posts-widget widget-item">
 
-                        <h3 class="widget-title">Recent Posts</h3>
+                        <h3 class="widget-title">Karışık Postlar</h3>
 
-                        <div class="post-item">
-                            <img src="assets/img/blog/blog-recent-1.jpg" alt="" class="flex-shrink-0">
-                            <div>
-                                <h4><a href="blog-details.html">Nihil blanditiis at in nihil autem</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
-                        </div><!-- End recent post item-->
-
-                        <div class="post-item">
-                            <img src="assets/img/blog/blog-recent-2.jpg" alt="" class="flex-shrink-0">
-                            <div>
-                                <h4><a href="blog-details.html">Quidem autem et impedit</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
-                        </div><!-- End recent post item-->
-
-                        <div class="post-item">
-                            <img src="assets/img/blog/blog-recent-3.jpg" alt="" class="flex-shrink-0">
-                            <div>
-                                <h4><a href="blog-details.html">Id quia et et ut maxime similique occaecati ut</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
-                        </div><!-- End recent post item-->
-
-                        <div class="post-item">
-                            <img src="assets/img/blog/blog-recent-4.jpg" alt="" class="flex-shrink-0">
-                            <div>
-                                <h4><a href="blog-details.html">Laborum corporis quo dara net para</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
-                        </div><!-- End recent post item-->
-
-                        <div class="post-item">
-                            <img src="assets/img/blog/blog-recent-5.jpg" alt="" class="flex-shrink-0">
-                            <div>
-                                <h4><a href="blog-details.html">Et dolores corrupti quae illo quod dolor</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
-                        </div><!-- End recent post item-->
+                        @foreach (var item in Model.BlogsList.OrderByDescending(x => Guid.NewGuid()).Take(5))
+                        {
+                            <div class="post-item">
+                                <img src="~/webimage/@item.IMAGE" alt="@item.TITLE" class="flex-shrink-0" style="width: 120px; height: 80px; object-fit: cover;">
+                                <div>
+                                    <h4><a href="blog-details.html">@item.TITLE</a></h4>
+                                    <time datetime="2020-01-01">@item.DATE.Value.ToString("dd.MM.yyyy")</time>
+                                </div>
+                            </div><!-- End recent post item-->
+                        }
 
                     </div><!--/Recent Posts Widget -->
                     <!-- Tags Widget -->

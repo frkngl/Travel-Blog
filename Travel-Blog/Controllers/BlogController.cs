@@ -1,8 +1,10 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using Travel_Blog.Models;
 
 namespace Travel_Blog.Controllers
@@ -12,18 +14,33 @@ namespace Travel_Blog.Controllers
         TravelBlogEntities db = new TravelBlogEntities();
         TableList data = new TableList();
         // GET: Blog
-        public ActionResult Index(string categoryName)
+        public ActionResult Index(string categoryName, int? page)
         {
-            TableList data = new TableList();
             data.AdminList = db.TBLADMIN.ToList();
             data.CategoryList = db.TBLCATEGORY.ToList();
+
+            var query = db.TBLBLOGS.AsQueryable();
+
+            if (!string.IsNullOrEmpty(categoryName))
+            {
                 var selected = data.CategoryList.FirstOrDefault(x =>
-                    x.CATEGORYNAME.ToLower()
-                    .Replace("ş", "s").Replace("ç", "c").Replace("ı", "i")
-                    .Replace("ğ", "g").Replace("ö", "o").Replace("ü", "u")
-                    .Replace(" ", "-") == categoryName);
-                data.BlogsList = db.TBLBLOGS.Where(x => x.CATEGORYID == selected.ID).ToList();
-                data.ActiveCategoryName = selected.CATEGORYNAME;
+                        x.CATEGORYNAME.ToLower()
+                        .Replace("ş", "s").Replace("ç", "c").Replace("ı", "i")
+                        .Replace("ğ", "g").Replace("ö", "o").Replace("ü", "u")
+                        .Replace(" ", "-") == categoryName);
+
+                if (selected != null)
+                {
+                    query = query.Where(x => x.CATEGORYID == selected.ID);
+                    data.ActiveCategoryName = selected.CATEGORYNAME;
+                }
+            }
+
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+
+            data.BlogsList = query.OrderByDescending(x => x.DATE).ToPagedList(pageNumber, pageSize);
+
             return View(data);
         }
     }

@@ -91,8 +91,6 @@
             <div class="container" data-aos="fade-up">
                 <div class="row g-5">
 
-                    <!-- View İçindeki C# İşlemleri Tamamen Silindi, Direkt Model Kullanılıyor -->
-
                     <div class="col-lg-4">
                         @if (Model.TrendingMainBlog != null)
                         {
@@ -186,7 +184,7 @@
         <div class="container section-title" data-aos="fade-up">
             <div class="section-title-container d-flex align-items-center justify-content-between">
                 <h2>Spor</h2>
-                <p><a href="#">Spor kategorisine git</a></p>
+                <p><a href="@Url.Action("Index", "Blog", new { categoryName = "spor" })">Spor kategorisine git</a></p>
             </div>
         </div><div class="container" data-aos="fade-up" data-aos-delay="100">
             <div class="row">
@@ -283,7 +281,7 @@
             <div class="section-title-container d-flex align-items-center justify-content-between">
                 <h2>Kültür</h2>
                 <p>
-                    <a href="#">
+                    <a href="@Url.Action("Index", "Blog", new { categoryName = "kultur" })">
                         Kültür kategorisine git
                     </a>
                 </p>

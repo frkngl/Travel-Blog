@@ -48,7 +48,7 @@ namespace Travel_Blog.Controllers
             ViewBag.CurrentSearch = searchString;
             int pageSize = 6;
             int pageNumber = (page ?? 1);
-            data.PagedBlogsList = query.OrderByDescending(x => x.DATE).ToPagedList(pageNumber, pageSize);
+            data.PagedBlogsList = query.Where(x => x.STATUS == true).OrderByDescending(x => x.ID).ToPagedList(pageNumber, pageSize);
             return View(data);
         }
 

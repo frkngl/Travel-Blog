@@ -13,11 +13,37 @@ namespace Travel_Blog.Controllers
 {
     public class HomeController : Controller
     {
-       TravelBlogEntities db = new TravelBlogEntities();
+        TravelBlogEntities db = new TravelBlogEntities();
+        TableList data = new TableList();
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            var sliderBlogs = db.TBLBLOGS.Where(x => x.STATUS == true).OrderByDescending(x => x.ID).Take(5).ToList();
+            var randomBlogs = db.TBLBLOGS.Where(x => x.STATUS == true).OrderBy(x => Guid.NewGuid()).Take(12).ToList();
+            var lifestyleBlogs = db.TBLBLOGS.Where(x => x.CATEGORYID == 1 && x.STATUS == true).OrderByDescending(x => x.ID).Take(15).ToList();
+            var sportBlogs = db.TBLBLOGS .Where(x => x.CATEGORYID == 4 && x.STATUS == true).OrderByDescending(x => x.ID).Take(10).ToList();
+
+            var viewModel = new TableList
+            {
+                SliderBlogs = sliderBlogs,
+
+                TrendingMainBlog = randomBlogs.FirstOrDefault(),
+                TrendingCol1Blogs = randomBlogs.Skip(1).Take(3).ToList(),
+                TrendingCol2Blogs = randomBlogs.Skip(4).Take(3).ToList(),
+                TrendingListBlogs = randomBlogs.Skip(7).Take(5).ToList(),
+
+                LifestyleMainBlog = lifestyleBlogs.FirstOrDefault(),
+                LifestyleLeftSmallBlogs = lifestyleBlogs.Skip(1).Take(2).ToList(),
+                LifestyleCol1Blogs = lifestyleBlogs.Skip(3).Take(3).ToList(),
+                LifestyleCol2Blogs = lifestyleBlogs.Skip(6).Take(3).ToList(),
+                LifestyleRightListBlogs = lifestyleBlogs.Skip(9).Take(6).ToList(),
+
+                SportMainBlog = sportBlogs.FirstOrDefault(),
+                SportBottomLeftBlogs = sportBlogs.Skip(1).Take(2).ToList(),
+                SportBottomRightBlog = sportBlogs.Skip(3).FirstOrDefault(),
+                SportSidebarBlogs = sportBlogs.Skip(4).Take(6).ToList(),
+            };
+            return View(viewModel);
         }
 
         public ActionResult About()

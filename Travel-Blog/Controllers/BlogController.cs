@@ -25,11 +25,11 @@ namespace Travel_Blog.Controllers
             text = System.Text.RegularExpressions.Regex.Replace(text, @"-+", "-");
             return text.Trim('-');
         }
-
+        [Route("{seourl}")]
         public ActionResult Index(string categoryName, string searchString, int? page)
         {
             data.AdminList = db.TBLADMIN.Where(x=>x.STATUS == true).ToList();
-            data.CategoryList = db.TBLCATEGORY.ToList();
+            data.CategoryList = db.TBLCATEGORY.Where(x=>x.STATUS == true).ToList();
             var query = db.TBLBLOGS.Where(x => x.STATUS == true).AsQueryable();
             if (!string.IsNullOrEmpty(categoryName))
             {
@@ -48,7 +48,7 @@ namespace Travel_Blog.Controllers
             ViewBag.CurrentSearch = searchString;
             int pageSize = 6;
             int pageNumber = (page ?? 1);
-            data.BlogsList = query.OrderByDescending(x => x.DATE).ToPagedList(pageNumber, pageSize);
+            data.PagedBlogsList = query.OrderByDescending(x => x.DATE).ToPagedList(pageNumber, pageSize);
             return View(data);
         }
 
@@ -77,7 +77,7 @@ namespace Travel_Blog.Controllers
         [ChildActionOnly]
         public PartialViewResult GetCategories()
         {
-            var categories = db.TBLCATEGORY.ToList();
+            var categories = db.TBLCATEGORY.Where(x => x.STATUS == true).ToList();
             return PartialView(categories);
         }
 

@@ -1,4 +1,4 @@
-﻿
+﻿@model Travel_Blog.Models.TableList
 @{
     ViewBag.Title = "Anasayfa | GülBlog";
     Layout = "~/Views/Shared/User_Layout.cshtml";
@@ -19,15 +19,27 @@
             left: 0;
             z-index: -1;
         }
+
+    .img-rect-large {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .img-rect-medium {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
 </style>
 
 <main class="main">
 
     <!-- Slider Section -->
     <section id="slider" class="slider section dark-background">
-
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-
             <div class="swiper init-swiper">
 
                 <script type="application/json" class="swiper-config">
@@ -52,505 +64,325 @@
                 </script>
 
                 <div class="swiper-wrapper">
-
-                    <div class="swiper-slide">
-                        <div class="slide-img-container">
-                            <img src="~/Travel-Blog/assets/img/post-slide-1.jpg" alt="The Best Homemade Masks for Face" class="swiper-lazy">
+                    <!-- YENİ MODEL İSMİ: SliderBlogs -->
+                    @foreach (var item in Model.SliderBlogs)
+                    {
+                        <div class="swiper-slide">
+                            <div class="slide-img-container">
+                                <img src="~/webimage/@item.IMAGE" alt="@item.TITLE" class="swiper-lazy">
+                            </div>
+                            <div class="content">
+                                <h2><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(item.TITLE) })">@item.TITLE</a></h2>
+                                <p>@(item.DESCRIPTION != null && item.DESCRIPTION.Length > 200 ? item.DESCRIPTION.Substring(0, 200) + "..." : item.DESCRIPTION)</p>
+                            </div>
                         </div>
-                        <div class="content">
-                            <h2><a href="single-post.html">The Best Homemade Masks for Face (keep the Pimples Away)</a></h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem neque est mollitia! Beatae minima assumenda repellat harum vero, officiis ipsam magnam obcaecati cumque maxime inventore repudiandae quidem necessitatibus rem atque.</p>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="slide-img-container">
-                            <img src="~/Travel-Blog/assets/img/post-slide-2.jpg" alt="Medium Length Hair in Layers" class="swiper-lazy">
-                        </div>
-                        <div class="content">
-                            <h2><a href="single-post.html">17 Pictures of Medium Length Hair in Layers That Will Inspire Your New Haircut</a></h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem neque est mollitia! Beatae minima assumenda repellat harum vero, officiis ipsam magnam obcaecati cumque maxime inventore repudiandae quidem necessitatibus rem atque.</p>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="slide-img-container">
-                            <img src="~/Travel-Blog/assets/img/post-slide-3.jpg" alt="Poems from Shel Silverstein" class="swiper-lazy">
-                        </div>
-                        <div class="content">
-                            <h2><a href="single-post.html">13 Amazing Poems from Shel Silverstein with Valuable Life Lessons</a></h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem neque est mollitia! Beatae minima assumenda repellat harum vero, officiis ipsam magnam obcaecati cumque maxime inventore repudiandae quidem necessitatibus rem atque.</p>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="slide-img-container">
-                            <img src="~/Travel-Blog/assets/img/post-slide-4.jpg" alt="Half-up/half-down Hairstyles" class="swiper-lazy">
-                        </div>
-                        <div class="content">
-                            <h2><a href="single-post.html">9 Half-up/half-down Hairstyles for Long and Medium Hair</a></h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem neque est mollitia! Beatae minima assumenda repellat harum vero, officiis ipsam magnam obcaecati cumque maxime inventore repudiandae quidem necessitatibus rem atque.</p>
-                        </div>
-                    </div>
-
+                    }
                 </div>
 
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
-
                 <div class="swiper-pagination"></div>
             </div>
-
         </div>
-
     </section><!-- /Slider Section -->
     <!-- Trending Category Section -->
     <section id="trending-category" class="trending-category section">
-
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-
             <div class="container" data-aos="fade-up">
                 <div class="row g-5">
+
+                    <!-- View İçindeki C# İşlemleri Tamamen Silindi, Direkt Model Kullanılıyor -->
+
                     <div class="col-lg-4">
+                        @if (Model.TrendingMainBlog != null)
+                        {
+                            <div class="post-entry lg">
+                                <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(Model.TrendingMainBlog.TITLE) })">
+                                    <img src="~/webimage/@Model.TrendingMainBlog.IMAGE" alt="@Model.TrendingMainBlog.TITLE" class="img-fluid img-rect-large">
+                                </a>
+                                <div class="post-meta">
+                                    <span class="date">@Model.TrendingMainBlog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                    <span>@(Model.TrendingMainBlog.DATE.HasValue ? Model.TrendingMainBlog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                                </div>
+                                <h2><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(Model.TrendingMainBlog.TITLE) })">@Model.TrendingMainBlog.TITLE</a></h2>
+                                <p class="mb-4 d-block">@(Model.TrendingMainBlog.DESCRIPTION != null && Model.TrendingMainBlog.DESCRIPTION.Length > 300 ? Model.TrendingMainBlog.DESCRIPTION.Substring(0, 300) + "..." : Model.TrendingMainBlog.DESCRIPTION)</p>
 
-                        <div class="post-entry lg">
-                            <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-1.jpg" alt="" class="img-fluid"></a>
-                            <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                            <h2><a href="blog-details.html">11 Work From Home Part-Time Jobs You Can Do Now</a></h2>
-                            <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus exercitationem? Nihil tempore odit ab minus eveniet praesentium, similique blanditiis molestiae ut saepe perspiciatis officia nemo, eos quae cumque. Accusamus fugiat architecto rerum animi atque eveniet, quo, praesentium dignissimos</p>
-
-                            <div class="d-flex align-items-center author">
-                                <div class="photo"><img src="assets/img/person-1.jpg" alt="" class="img-fluid"></div>
-                                <div class="name">
-                                    <h3 class="m-0 p-0">Cameron Williamson</h3>
+                                <div class="d-flex align-items-center author">
+                                    <div class="photo"><img src="~/webimage/@Model.TrendingMainBlog.TBLADMIN.IMAGE" class="img-fluid"></div>
+                                    <div class="name">
+                                        <h3 class="m-0 p-0">@Model.TrendingMainBlog.TBLADMIN.NAME_AND_SURNAME</h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
+                        }
                     </div>
 
                     <div class="col-lg-8">
                         <div class="row g-5">
+                            <!-- 1. Orta Sütun -->
                             <div class="col-lg-4 border-start custom-border">
-                                <div class="post-entry">
-                                    <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-2.jpg" alt="" class="img-fluid"></a>
-                                    <div class="post-meta"><span class="date">Sport</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                    <h2><a href="blog-details.html">Let’s Get Back to Work, New York</a></h2>
-                                </div>
-                                <div class="post-entry">
-                                    <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-5.jpg" alt="" class="img-fluid"></a>
-                                    <div class="post-meta"><span class="date">Food</span> <span class="mx-1">•</span> <span>Jul 17th '22</span></div>
-                                    <h2><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                                </div>
-                                <div class="post-entry">
-                                    <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-7.jpg" alt="" class="img-fluid"></a>
-                                    <div class="post-meta"><span class="date">Design</span> <span class="mx-1">•</span> <span>Mar 15th '22</span></div>
-                                    <h2><a href="blog-details.html">Why Craigslist Tampa Is One of The Most Interesting Places On the Web?</a></h2>
-                                </div>
+                                @foreach (var blog in Model.TrendingCol1Blogs)
+                                {
+                                    <div class="post-entry">
+                                        <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">
+                                            <img src="~/webimage/@blog.IMAGE" alt="@blog.TITLE" class="img-fluid img-rect-medium">
+                                        </a>
+                                        <div class="post-meta">
+                                            <span class="date">@blog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                            <span>@(blog.DATE.HasValue ? blog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                                        </div>
+                                        <h2><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">@blog.TITLE</a></h2>
+                                    </div>
+                                }
                             </div>
+
+                            <!-- 2. Orta Sütun -->
                             <div class="col-lg-4 border-start custom-border">
-                                <div class="post-entry">
-                                    <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-3.jpg" alt="" class="img-fluid"></a>
-                                    <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                    <h2><a href="blog-details.html">6 Easy Steps To Create Your Own Cute Merch For Instagram</a></h2>
-                                </div>
-                                <div class="post-entry">
-                                    <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-6.jpg" alt="" class="img-fluid"></a>
-                                    <div class="post-meta"><span class="date">Tech</span> <span class="mx-1">•</span> <span>Mar 1st '22</span></div>
-                                    <h2><a href="blog-details.html">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                                </div>
-                                <div class="post-entry">
-                                    <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-8.jpg" alt="" class="img-fluid"></a>
-                                    <div class="post-meta"><span class="date">Travel</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                    <h2><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
-                                </div>
+                                @foreach (var blog in Model.TrendingCol2Blogs)
+                                {
+                                    <div class="post-entry">
+                                        <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">
+                                            <img src="~/webimage/@blog.IMAGE" alt="@blog.TITLE" class="img-fluid img-rect-medium">
+                                        </a>
+                                        <div class="post-meta">
+                                            <span class="date">@blog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                            <span>@(blog.DATE.HasValue ? blog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                                        </div>
+                                        <h2><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">@blog.TITLE</a></h2>
+                                    </div>
+                                }
                             </div>
 
                             <!-- Trending Section -->
                             <div class="col-lg-4">
-
                                 <div class="trending">
-                                    <h3>Trending</h3>
+                                    <h3>Karışık Postlar</h3>
                                     <ul class="trending-post">
-                                        <li>
-                                            <a href="blog-details.html">
-                                                <span class="number">1</span>
-                                                <h3>The Best Homemade Masks for Face (keep the Pimples Away)</h3>
-                                                <span class="author">Jane Cooper</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-details.html">
-                                                <span class="number">2</span>
-                                                <h3>17 Pictures of Medium Length Hair in Layers That Will Inspire Your New Haircut</h3>
-                                                <span class="author">Wade Warren</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-details.html">
-                                                <span class="number">3</span>
-                                                <h3>13 Amazing Poems from Shel Silverstein with Valuable Life Lessons</h3>
-                                                <span class="author">Esther Howard</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-details.html">
-                                                <span class="number">4</span>
-                                                <h3>9 Half-up/half-down Hairstyles for Long and Medium Hair</h3>
-                                                <span class="author">Cameron Williamson</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-details.html">
-                                                <span class="number">5</span>
-                                                <h3>Life Insurance And Pregnancy: A Working Mom’s Guide</h3>
-                                                <span class="author">Jenny Wilson</span>
-                                            </a>
-                                        </li>
+                                        @{ int index = 1; }
+                                        @foreach (var blog in Model.TrendingListBlogs)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">
+                                                    <span class="number">@index</span>
+                                                    <h3>@blog.TITLE</h3>
+                                                    <span class="author">@blog.TBLADMIN.NAME_AND_SURNAME</span>
+                                                </a>
+                                            </li>
+                                            index++;
+                                        }
                                     </ul>
                                 </div>
-
                             </div> <!-- End Trending Section -->
+
                         </div>
                     </div>
 
                 </div> <!-- End .row -->
             </div>
-
         </div>
-
     </section><!-- /Trending Category Section -->
-    <!-- Culture Category Section -->
+    <!-- Culture Category Section (Statik Bırakıldı) -->
     <section id="culture-category" class="culture-category section">
-
-        <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <div class="section-title-container d-flex align-items-center justify-content-between">
-                <h2>Culture</h2>
-                <p><a href="categories.html">See All Culture</a></p>
+                <h2>Spor</h2>
+                <p><a href="#">Spor kategorisine git</a></p>
             </div>
-        </div><!-- End Section Title -->
-
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-
+        </div><div class="container" data-aos="fade-up" data-aos-delay="100">
             <div class="row">
+
                 <div class="col-md-9">
 
-                    <div class="d-lg-flex post-entry">
-                        <a href="blog-details.html" class="me-4 thumbnail mb-4 mb-lg-0 d-inline-block">
-                            <img src="~/Travel-Blog/assets/img/post-landscape-6.jpg" alt="" class="img-fluid">
-                        </a>
-                        <div>
-                            <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                            <h3><a href="blog-details.html">What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</a></h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio placeat exercitationem magni voluptates dolore. Tenetur fugiat voluptates quas, nobis error deserunt aliquam temporibus sapiente, laudantium dolorum itaque libero eos deleniti?</p>
-                            <div class="d-flex align-items-center author">
-                                <div class="photo"><img src="assets/img/person-2.jpg" alt="" class="img-fluid"></div>
-                                <div class="name">
-                                    <h3 class="m-0 p-0">Wade Warren</h3>
+                    @if (Model.SportMainBlog != null)
+                    {
+                        <div class="d-lg-flex post-entry">
+                            <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(Model.SportMainBlog.TITLE) })" class="me-4 thumbnail mb-4 mb-lg-0 d-inline-block">
+                                <img src="~/webimage/@Model.SportMainBlog.IMAGE" alt="@Model.SportMainBlog.TITLE" class="img-fluid" style="object-fit:cover; height:250px; border-radius:8px; width:100%;">
+                            </a>
+                            <div>
+                                <div class="post-meta">
+                                    <span class="date">@Model.SportMainBlog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                    <span>@(Model.SportMainBlog.DATE.HasValue ? Model.SportMainBlog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                                </div>
+                                <h3><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(Model.SportMainBlog.TITLE) })">@Model.SportMainBlog.TITLE</a></h3>
+                                <p>@(Model.SportMainBlog.DESCRIPTION != null && Model.SportMainBlog.DESCRIPTION.Length > 200 ? Model.SportMainBlog.DESCRIPTION.Substring(0, 200) + "..." : Model.SportMainBlog.DESCRIPTION)</p>
+                                <div class="d-flex align-items-center author">
+                                    <div class="photo"><img src="~/webimage/@Model.SportMainBlog.TBLADMIN.IMAGE" class="img-fluid"></div>
+                                    <div class="name">
+                                        <h3 class="m-0 p-0">@Model.SportMainBlog.TBLADMIN.NAME_AND_SURNAME</h3>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
 
                     <div class="row">
                         <div class="col-lg-4">
-                            <div class="post-list border-bottom">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-1.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">11 Work From Home Part-Time Jobs You Can Do Now</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                                <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
-                            </div>
+                            @{
+                                var firstLeftBlog = Model.SportBottomLeftBlogs.FirstOrDefault();
+                                var secondLeftBlog = Model.SportBottomLeftBlogs.Skip(1).FirstOrDefault();
+                            }
 
-                            <div class="post-list">
-                                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                            </div>
+                            @if (firstLeftBlog != null)
+                            {
+                                <div class="post-list border-bottom">
+                                    <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(firstLeftBlog.TITLE) })">
+                                        <img src="~/webimage/@firstLeftBlog.IMAGE" alt="@firstLeftBlog.TITLE" class="img-fluid img-rect-medium">
+                                    </a>
+                                    <div class="post-meta"><span class="date">@firstLeftBlog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span> <span>@(firstLeftBlog.DATE.HasValue ? firstLeftBlog.DATE.Value.ToString("dd.MM.yyyy") : "")</span></div>
+                                    <h2 class="mb-2"><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(firstLeftBlog.TITLE) })">@firstLeftBlog.TITLE</a></h2>
+                                    <span class="author mb-3 d-block">@firstLeftBlog.TBLADMIN.NAME_AND_SURNAME</span>
+                                    <p class="mb-4 d-block">@(firstLeftBlog.DESCRIPTION != null && firstLeftBlog.DESCRIPTION.Length > 100 ? firstLeftBlog.DESCRIPTION.Substring(0, 100) + "..." : firstLeftBlog.DESCRIPTION)</p>
+                                </div>
+                            }
+
+                            @if (secondLeftBlog != null)
+                            {
+                                <div class="post-list">
+                                    <div class="post-meta"><span class="date">@secondLeftBlog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span> <span>@(secondLeftBlog.DATE.HasValue ? secondLeftBlog.DATE.Value.ToString("dd.MM.yyyy") : "")</span></div>
+                                    <h2 class="mb-2"><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(secondLeftBlog.TITLE) })">@secondLeftBlog.TITLE</a></h2>
+                                    <span class="author mb-3 d-block">@secondLeftBlog.TBLADMIN.NAME_AND_SURNAME</span>
+                                </div>
+                            }
                         </div>
+
                         <div class="col-lg-8">
-                            <div class="post-list">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-2.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                                <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
-                            </div>
+                            @if (Model.SportBottomRightBlog != null)
+                            {
+                                <div class="post-list">
+                                    <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(Model.SportBottomRightBlog.TITLE) })">
+                                        <img src="~/webimage/@Model.SportBottomRightBlog.IMAGE" alt="@Model.SportBottomRightBlog.TITLE" class="img-fluid img-rect-large">
+                                    </a>
+                                    <div class="post-meta"><span class="date">@Model.SportBottomRightBlog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span> <span>@(Model.SportBottomRightBlog.DATE.HasValue ? Model.SportBottomRightBlog.DATE.Value.ToString("dd.MM.yyyy") : "")</span></div>
+                                    <h2 class="mb-2"><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(Model.SportBottomRightBlog.TITLE) })">@Model.SportBottomRightBlog.TITLE</a></h2>
+                                    <span class="author mb-3 d-block">@Model.SportBottomRightBlog.TBLADMIN.NAME_AND_SURNAME</span>
+                                    <p class="mb-4 d-block">@(Model.SportBottomRightBlog.DESCRIPTION != null && Model.SportBottomRightBlog.DESCRIPTION.Length > 150 ? Model.SportBottomRightBlog.DESCRIPTION.Substring(0, 150) + "..." : Model.SportBottomRightBlog.DESCRIPTION)</p>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-3">
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">17 Pictures of Medium Length Hair in Layers That Will Inspire Your New Haircut</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">9 Half-up/half-down Hairstyles for Long and Medium Hair</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">Life Insurance And Pregnancy: A Working Mom’s Guide</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">The Best Homemade Masks for Face (keep the Pimples Away)</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
+                    @foreach (var blog in Model.SportSidebarBlogs)
+                    {
+                        <div class="post-list border-bottom">
+                            <div class="post-meta"><span class="date">@blog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span> <span>@(blog.DATE.HasValue ? blog.DATE.Value.ToString("dd.MM.yyyy") : "")</span></div>
+                            <h2 class="mb-2"><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">@blog.TITLE</a></h2>
+                            <span class="author mb-3 d-block">@blog.TBLADMIN.NAME_AND_SURNAME</span>
+                        </div>
+                    }
                 </div>
-            </div>
 
+            </div>
         </div>
+    </section>
 
-    </section><!-- /Culture Category Section -->
-    <!-- Business Category Section -->
-    <section id="business-category" class="business-category section">
-
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <div class="section-title-container d-flex align-items-center justify-content-between">
-                <h2>Business</h2>
-                <p><a href="categories.html">See All Business</a></p>
-            </div>
-        </div><!-- End Section Title -->
-
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="row">
-                <div class="col-md-9 order-md-2">
-
-                    <div class="d-lg-flex post-entry">
-                        <a href="blog-details.html" class="me-4 thumbnail d-inline-block mb-4 mb-lg-0">
-                            <img src="~/Travel-Blog/assets/img/post-landscape-3.jpg" alt="" class="img-fluid">
-                        </a>
-                        <div>
-                            <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                            <h3><a href="blog-details.html">What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</a></h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio placeat exercitationem magni voluptates dolore. Tenetur fugiat voluptates quas, nobis error deserunt aliquam temporibus sapiente, laudantium dolorum itaque libero eos deleniti?</p>
-                            <div class="d-flex align-items-center author">
-                                <div class="photo"><img src="~/Travel-Blog/assets/img/person-4.jpg" alt="" class="img-fluid"></div>
-                                <div class="name">
-                                    <h3 class="m-0 p-0">Wade Warren</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="post-list border-bottom">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-5.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">11 Work From Home Part-Time Jobs You Can Do Now</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                                <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
-                            </div>
-
-                            <div class="post-list">
-                                <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="post-list">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-7.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                                <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">17 Pictures of Medium Length Hair in Layers That Will Inspire Your New Haircut</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">9 Half-up/half-down Hairstyles for Long and Medium Hair</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">Life Insurance And Pregnancy: A Working Mom’s Guide</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">The Best Homemade Masks for Face (keep the Pimples Away)</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </section><!-- /Business Category Section -->
-    <!-- Lifestyle Category Section -->
     <section id="lifestyle-category" class="lifestyle-category section">
-
-        <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <div class="section-title-container d-flex align-items-center justify-content-between">
-                <h2>Lifestyle</h2>
-                <p><a href="categories.html">See All Lifestyle</a></p>
+                <h2>Kültür</h2>
+                <p>
+                    <a href="#">
+                        Kültür kategorisine git
+                    </a>
+                </p>
             </div>
-        </div><!-- End Section Title -->
+        </div>
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-
             <div class="row g-5">
-                <div class="col-lg-4">
-                    <div class="post-list lg">
-                        <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-8.jpg" alt="" class="img-fluid"></a>
-                        <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2><a href="blog-details.html">11 Work From Home Part-Time Jobs You Can Do Now</a></h2>
-                        <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus exercitationem? Nihil tempore odit ab minus eveniet praesentium, similique blanditiis molestiae ut saepe perspiciatis officia nemo, eos quae cumque. Accusamus fugiat architecto rerum animi atque eveniet, quo, praesentium dignissimos</p>
 
-                        <div class="d-flex align-items-center author">
-                            <div class="photo"><img src="assets/img/person-7.jpg" alt="" class="img-fluid"></div>
-                            <div class="name">
-                                <h3 class="m-0 p-0">Esther Howard</h3>
+                <div class="col-lg-4">
+                    @if (Model.LifestyleMainBlog != null)
+                    {
+                        <div class="post-list lg">
+                            <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(Model.LifestyleMainBlog.TITLE) })">
+                                <img src="~/webimage/@Model.LifestyleMainBlog.IMAGE" alt="@Model.LifestyleMainBlog.TITLE" class="img-fluid img-rect-large">
+                            </a>
+                            <div class="post-meta">
+                                <span class="date">@Model.LifestyleMainBlog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                <span>@(Model.LifestyleMainBlog.DATE.HasValue ? Model.LifestyleMainBlog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                            </div>
+                            <h2><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(Model.LifestyleMainBlog.TITLE) })">@Model.LifestyleMainBlog.TITLE</a></h2>
+                            <p class="mb-4 d-block">@(Model.LifestyleMainBlog.DESCRIPTION != null && Model.LifestyleMainBlog.DESCRIPTION.Length > 200 ? Model.LifestyleMainBlog.DESCRIPTION.Substring(0, 200) + "..." : Model.LifestyleMainBlog.DESCRIPTION)</p>
+
+                            <div class="d-flex align-items-center author">
+                                <div class="photo"><img src="~/webimage/@Model.LifestyleMainBlog.TBLADMIN.IMAGE" alt="" class="img-fluid"></div>
+                                <div class="name">
+                                    <h3 class="m-0 p-0">@Model.LifestyleMainBlog.TBLADMIN.NAME_AND_SURNAME</h3>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
 
-                    <div class="post-list border-bottom">
-                        <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">The Best Homemade Masks for Face (keep the Pimples Away)</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
-                    <div class="post-list">
-                        <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                        <h2 class="mb-2"><a href="blog-details.html">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                        <span class="author mb-3 d-block">Jenny Wilson</span>
-                    </div>
-
+                    @foreach (var blog in Model.LifestyleLeftSmallBlogs)
+                    {
+                        <div class="post-list border-bottom">
+                            <div class="post-meta">
+                                <span class="date">@blog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                <span>@(blog.DATE.HasValue ? blog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                            </div>
+                            <h2 class="mb-2"><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">@blog.TITLE</a></h2>
+                            <span class="author mb-3 d-block">@blog.TBLADMIN.NAME_AND_SURNAME</span>
+                        </div>
+                    }
                 </div>
 
                 <div class="col-lg-8">
                     <div class="row g-5">
+
                         <div class="col-lg-4 border-start custom-border">
-                            <div class="post-list">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-6.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2><a href="blog-details.html">Let’s Get Back to Work, New York</a></h2>
-                            </div>
-                            <div class="post-list">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-5.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 17th '22</span></div>
-                                <h2><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                            </div>
-                            <div class="post-list">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-4.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Mar 15th '22</span></div>
-                                <h2><a href="blog-details.html">Why Craigslist Tampa Is One of The Most Interesting Places On the Web?</a></h2>
-                            </div>
+                            @foreach (var blog in Model.LifestyleCol1Blogs)
+                            {
+                                <div class="post-list">
+                                    <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">
+                                        <img src="~/webimage/@blog.IMAGE" alt="@blog.TITLE" class="img-fluid img-rect-medium">
+                                    </a>
+                                    <div class="post-meta">
+                                        <span class="date">@blog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                        <span>@(blog.DATE.HasValue ? blog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                                    </div>
+                                    <h2><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">@blog.TITLE</a></h2>
+                                </div>
+                            }
                         </div>
+
                         <div class="col-lg-4 border-start custom-border">
-                            <div class="post-list">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-3.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2><a href="blog-details.html">6 Easy Steps To Create Your Own Cute Merch For Instagram</a></h2>
-                            </div>
-                            <div class="post-list">
-                                <a href="blog-details.html"><img src="~/Travel-Blog//img/post-landscape-2.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Mar 1st '22</span></div>
-                                <h2><a href="blog-details.html">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                            </div>
-                            <div class="post-list">
-                                <a href="blog-details.html"><img src="~/Travel-Blog/assets/img/post-landscape-1.jpg" alt="" class="img-fluid"></a>
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
-                            </div>
+                            @foreach (var blog in Model.LifestyleCol2Blogs)
+                            {
+                                <div class="post-list">
+                                    <a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">
+                                        <img src="~/webimage/@blog.IMAGE" alt="@blog.TITLE" class="img-fluid img-rect-medium">
+                                    </a>
+                                    <div class="post-meta">
+                                        <span class="date">@blog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                        <span>@(blog.DATE.HasValue ? blog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                                    </div>
+                                    <h2><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">@blog.TITLE</a></h2>
+                                </div>
+                            }
                         </div>
+
                         <div class="col-lg-4">
-
-                            <div class="post-list border-bottom">
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                            </div>
-
-                            <div class="post-list border-bottom">
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">17 Pictures of Medium Length Hair in Layers That Will Inspire Your New Haircut</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                            </div>
-
-                            <div class="post-list border-bottom">
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">9 Half-up/half-down Hairstyles for Long and Medium Hair</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                            </div>
-
-                            <div class="post-list border-bottom">
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">Life Insurance And Pregnancy: A Working Mom’s Guide</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                            </div>
-
-                            <div class="post-list border-bottom">
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">The Best Homemade Masks for Face (keep the Pimples Away)</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                            </div>
-
-                            <div class="post-list border-bottom">
-                                <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                                <h2 class="mb-2"><a href="blog-details.html">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                                <span class="author mb-3 d-block">Jenny Wilson</span>
-                            </div>
-
+                            @foreach (var blog in Model.LifestyleRightListBlogs)
+                            {
+                                <div class="post-list border-bottom">
+                                    <div class="post-meta">
+                                        <span class="date">@blog.TBLCATEGORY.CATEGORYNAME</span> <span class="mx-1">•</span>
+                                        <span>@(blog.DATE.HasValue ? blog.DATE.Value.ToString("dd.MM.yyyy") : "")</span>
+                                    </div>
+                                    <h2 class="mb-2"><a href="@Url.Action("BlogDetail", "Blog", new { seourl = Travel_Blog.Controllers.BlogController.SeoUrlCreate(blog.TITLE) })">@blog.TITLE</a></h2>
+                                    <span class="author mb-3 d-block">@blog.TBLADMIN.NAME_AND_SURNAME</span>
+                                </div>
+                            }
                         </div>
+
                     </div>
                 </div>
 
             </div>
-
         </div>
-
     </section><!-- /Lifestyle Category Section -->
 
 </main>
-

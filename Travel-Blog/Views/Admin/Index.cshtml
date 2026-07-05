@@ -106,8 +106,17 @@
                             <div class="card-list py-4">
                                 <div class="item-list">
                                     <div class="avatar">
-                                        <img src="~/webimage/@item.IMAGE"
-                                             class="avatar-img rounded-circle" />
+                                        @if (item.IMAGE != null)
+                                        {
+                                            <img src="~/webimage/@item.IMAGE"
+                                                 class="avatar-img rounded-circle" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/webimage/user.jpg" style="object-fit:cover;"
+                                                 class="avatar-img rounded-circle" />
+                                        }
+
                                     </div>
                                     <div class="info-user ms-3">
                                         <div class="username">@item.NAME_AND_SURNAME</div>

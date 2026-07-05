@@ -5,14 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c745a3282aaf468faa7b7d10dec4ba3f" Name="Diagram1">
-        <EntityTypeShape EntityType="TravelBlogModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="5.75" />
-        <EntityTypeShape EntityType="TravelBlogModel.TBLABOUT" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="TravelBlogModel.sysdiagrams" Width="1.5" PointX="5.625" PointY="5.125" />
+        <EntityTypeShape EntityType="TravelBlogModel.TBLABOUT" Width="1.5" PointX="7.375" PointY="4.625" />
         <EntityTypeShape EntityType="TravelBlogModel.TBLADMIN" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="TravelBlogModel.TBLADMINROLE" Width="1.5" PointX="0.75" PointY="1.75" />
-        <EntityTypeShape EntityType="TravelBlogModel.TBLBLOGS" Width="1.5" PointX="5.25" PointY="1.125" />
-        <EntityTypeShape EntityType="TravelBlogModel.TBLCATEGORY" Width="1.5" PointX="3" PointY="5.875" />
-        <EntityTypeShape EntityType="TravelBlogModel.TBLCOMMENT" Width="1.5" PointX="7.5" PointY="1.5" />
-        <EntityTypeShape EntityType="TravelBlogModel.TBLCONTACT" Width="1.5" PointX="0.875" PointY="5.75" />
+        <EntityTypeShape EntityType="TravelBlogModel.TBLADMINROLE" Width="1.5" PointX="0.75" PointY="2.125" />
+        <EntityTypeShape EntityType="TravelBlogModel.TBLBLOGS" Width="1.5" PointX="5.25" PointY="1.25" />
+        <EntityTypeShape EntityType="TravelBlogModel.TBLCATEGORY" Width="1.5" PointX="2.875" PointY="5.125" />
+        <EntityTypeShape EntityType="TravelBlogModel.TBLCOMMENT" Width="1.5" PointX="7.5" PointY="1.75" />
+        <EntityTypeShape EntityType="TravelBlogModel.TBLCONTACT" Width="1.5" PointX="1" PointY="4.75" />
         <AssociationConnector Association="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" />
         <AssociationConnector Association="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" />
         <AssociationConnector Association="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY" />

@@ -13,7 +13,7 @@
     <link rel="icon"
           href="assets/img/kaiadmin/favicon.ico"
           type="image/x-icon" />
-
+    
     <!-- Fonts and icons -->
     <script src="assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
@@ -44,11 +44,11 @@
 <body>
     @{
         Travel_Blog.Models.TravelBlogEntities db = new Travel_Blog.Models.TravelBlogEntities();
-
-        var user = db.TBLADMIN.FirstOrDefault();
-        ViewBag.name_surname = user.NAME_AND_SURNAME;
-        ViewBag.Pıcture = user.IMAGE;
-        ViewBag.email = user.EMAIL;
+        string currentUsername = User.Identity.Name;
+        var user = db.TBLADMIN.FirstOrDefault(x => x.USERNAME == currentUsername);
+        ViewBag.name_surname = user?.NAME_AND_SURNAME;
+        ViewBag.Pıcture = user?.IMAGE;
+        ViewBag.email = user?.EMAIL;
     }
 
     <div class="wrapper">
@@ -161,9 +161,19 @@
                                    href="#"
                                    aria-expanded="false">
                                     <div class="avatar-sm">
-                                        <img src="~/webimage/@ViewBag.Pıcture"
-                                             alt="..."
-                                             class="avatar-img rounded-circle" />
+                                        @if (ViewBag.Pıcture != null)
+                                        {
+                                            <img src="~/webimage/@ViewBag.Pıcture"
+                                                 alt="..."
+                                                 class="avatar-img rounded-circle" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/webimage/user.jpg"
+                                                 alt="image profile"
+                                                 class="avatar-img rounded" />
+                                        }
+
                                     </div>
                                     <span class="profile-username">
                                         <span class="fw-bold">@ViewBag.name_surname</span>
@@ -174,23 +184,39 @@
                                     <li>
                                         <div class="user-box">
                                             <div class="avatar-lg">
-                                                <img src="~/webimage/@ViewBag.Pıcture"
-                                                     alt="image profile"
-                                                     class="avatar-img rounded" />
+                                                @if (ViewBag.Pıcture != null)
+                                                {
+                                                    <img src="~/webimage/@ViewBag.Pıcture"
+                                                         alt="image profile"
+                                                         class="avatar-img rounded" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/webimage/user.jpg"
+                                                         alt="image profile"
+                                                         class="avatar-img rounded" />
+                                                }
+
                                             </div>
                                             <div class="u-text">
                                                 <h4>@ViewBag.name_surname</h4>
-                                                <p class="text-muted">@ViewBag.email</p>
+                                                @if (ViewBag.email != null)
+                                                {
+                                                    <p class="text-muted">@ViewBag.email</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="text-muted">Mail adresi yok.</p>
+                                                }
+
                                                 <a href="profile.html"
-                                                   class="btn btn-xs btn-secondary btn-sm">Profilini Görüntüle</a>
+                                                   class="btn btn-xs btn-secondary btn-sm">Ayarlar</a>
                                             </div>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Ayarlar</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Çıkış</a>
+                                        <a class="dropdown-item" href="/Login/Logout">Çıkış Yap</a>
                                     </li>
                     </div>
                     </ul>
@@ -235,10 +261,8 @@
 
     <!-- Sweet Alert -->
     <script src="~/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-
     <!-- Kaiadmin JS -->
     <script src="~/Admin/assets/js/kaiadmin.min.js"></script>
-
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="~/Admin/assets/js/setting-demo.js"></script>
     <script src="~/Admin/assets/js/demo.js"></script>

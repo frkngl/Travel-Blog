@@ -46,6 +46,7 @@
           <Property Name="STATUS" Type="bit" />
           <Property Name="JOB" Type="nvarchar(max)" />
           <Property Name="EMAIL" Type="nvarchar(max)" />
+          <Property Name="CREATE_DATE" Type="datetime" />
         </EntityType>
         <EntityType Name="TBLADMINROLE">
           <Key>
@@ -242,11 +243,12 @@
           <Property Name="PASSWORD" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IMAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ADMINROLEID" Type="Int32" />
-          <NavigationProperty Name="TBLADMINROLE" Relationship="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMIN" ToRole="TBLADMINROLE" />
-          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" FromRole="TBLADMIN" ToRole="TBLBLOGS" />
           <Property Name="STATUS" Type="Boolean" />
           <Property Name="JOB" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLADMINROLE" Relationship="TravelBlogModel.FK_TBLADMIN_TBLADMINROLE" FromRole="TBLADMIN" ToRole="TBLADMINROLE" />
+          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" FromRole="TBLADMIN" ToRole="TBLBLOGS" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="TBLADMINROLE">
           <Key>
@@ -269,11 +271,11 @@
           <Property Name="CATEGORYID" Type="Int32" />
           <Property Name="ADMINID" Type="Int32" />
           <Property Name="IMAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRIPTION2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRIPTION3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TBLADMIN" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" FromRole="TBLBLOGS" ToRole="TBLADMIN" />
           <NavigationProperty Name="TBLCATEGORY" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLBLOGS" ToRole="TBLCATEGORY" />
           <NavigationProperty Name="TBLCOMMENT" Relationship="TravelBlogModel.FK_TBLCOMMENT_TBLBLOGS" FromRole="TBLBLOGS" ToRole="TBLCOMMENT" />
-          <Property Name="DESCRIPTION2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DESCRIPTION3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TBLCATEGORY">
           <Key>
@@ -281,8 +283,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CATEGORYNAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLCATEGORY" ToRole="TBLBLOGS" />
           <Property Name="STATUS" Type="Boolean" />
+          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLCATEGORY" FromRole="TBLCATEGORY" ToRole="TBLBLOGS" />
         </EntityType>
         <EntityType Name="TBLCOMMENT">
           <Key>
@@ -294,8 +296,8 @@
           <Property Name="COMMENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="STATUS" Type="Boolean" />
           <Property Name="BLOGID" Type="Int32" />
-          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLCOMMENT_TBLBLOGS" FromRole="TBLCOMMENT" ToRole="TBLBLOGS" />
           <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLCOMMENT_TBLBLOGS" FromRole="TBLCOMMENT" ToRole="TBLBLOGS" />
         </EntityType>
         <EntityType Name="TBLCONTACT">
           <Key>
@@ -390,6 +392,7 @@
           <EntitySetMapping Name="TBLADMIN">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLADMIN">
               <MappingFragment StoreEntitySet="TBLADMIN">
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
                 <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
                 <ScalarProperty Name="JOB" ColumnName="JOB" />
                 <ScalarProperty Name="STATUS" ColumnName="STATUS" />

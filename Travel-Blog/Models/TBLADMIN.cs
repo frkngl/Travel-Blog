@@ -33,6 +33,7 @@ namespace Travel_Blog.Models
         public Nullable<bool> STATUS { get; set; }
         public string JOB { get; set; }
         public string EMAIL { get; set; }
+        public Nullable<System.DateTime> CREATE_DATE { get; set; }
     
         public virtual TBLADMINROLE TBLADMINROLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

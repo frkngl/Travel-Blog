@@ -1,0 +1,230 @@
+﻿@model Travel_Blog.Models.TBLADMIN
+
+@{
+    ViewBag.Title = "UserSetting";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+<link href="~/Content/toastr.min.css" rel="stylesheet" />
+<div class="container">
+    <div class="page-inner">
+        <div class="page-header">
+            <h3 class="fw-bold mb-3">Kullanıcı Ayarları</h3>
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="/Admin/Index">
+                        <i class="icon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Güncelleme</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Kullanıcı Güncelleme</div>
+                    </div>
+                    <!-- FORM BAŞLANGICI -->
+                    <form action="/Admin/UserSettingUpdate" method="post" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <input type="hidden" name="ID" value="@Model.ID" />
+                            <div class="row">
+                                <!-- 1. SÜTUN: Temel Bilgiler -->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="NAME_AND_SURNAME">Ad Soyad</label>
+                                        <input type="text" class="form-control" id="NAME_AND_SURNAME" name="NAME_AND_SURNAME" value="@Model.NAME_AND_SURNAME" placeholder="Örn: Furkan Gül" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="USERNAME">Kullanıcı Adı</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" id="USERNAME" name="USERNAME" placeholder="Kullanıcı Adı" value="@Model.USERNAME" aria-describedby="basic-addon1" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="EMAIL">Email Adresi</label>
+                                        <input type="email" class="form-control" id="EMAIL" name="EMAIL" value="@Model.EMAIL" placeholder="ornek@mail.com" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="PASSWORD">Şifre</label>
+                                        <div class="input-group">
+                                            <input type="password"
+                                                   class="form-control"
+                                                   id="PASSWORD"
+                                                   name="PASSWORD"
+                                                   value="@Model.PASSWORD"
+                                                   placeholder="Şifre"
+                                                   required />
+                                            <!-- Şifre Göster/Gizle Butonu -->
+                                            <span class="input-group-text" id="togglePassword" style="cursor: pointer;" title="Şifreyi Göster/Gizle">
+                                                <i class="fa fa-eye" id="toggleIcon"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="JOB">Meslek / Ünvan</label>
+                                        <input type="text" class="form-control" id="JOB" name="JOB" value="@Model.JOB" placeholder="Örn: Fullstack Developer" />
+                                    </div>
+                                </div>
+
+                                <!-- 2. SÜTUN: Sistem Ayarları ve Medya -->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Rol</label>
+                                        <input type="text" class="form-control" value="@Model.TBLADMINROLE.ROLE" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Oluşturma Tarihi</label>
+                                        <input type="text" class="form-control" value="@Model.CREATE_DATE.Value.ToString("dd.MM.yyyy")" readonly />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Profil Resmi</label>
+                                        <div class="mb-3">
+                                            @if (!string.IsNullOrEmpty(Model.IMAGE))
+                                            {
+                                                <img id="imagePreview" src="~/webimage/@Model.IMAGE" alt="Profil Resmi" class="img-thumbnail rounded" style="max-width: 150px; max-height: 150px; object-fit: cover;" />
+                                            }
+                                            else
+                                            {
+                                                <img id="imagePreview" src="~/webimage/user.jpg" alt="Varsayılan Resim" class="img-thumbnail rounded" style="max-width: 150px; max-height: 150px; object-fit: cover;" />
+                                            }
+                                        </div>
+                                        <input type="file" class="form-control-file" id="IMAGE" name="ImageFile" accept="image/*" onchange="previewImage(event)" />
+                                        <br />
+                                        <small class="form-text text-muted">Profil resminizi değiştirmek için yeni bir dosya seçin.</small>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="DESCRIPTION">Hakkında (Açıklama)</label>
+                                        <textarea class="form-control" id="DESCRIPTION" name="DESCRIPTION" rows="4" placeholder="Kısa bir biyografi...">@Model.DESCRIPTION</textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label d-block">Hesap Durumu</label>
+                                        <div class="form-check">
+                                            <!-- İsimlendirmeyi StatusCheck yaptım, böylece gelen veriyi kontrol edebiliriz -->
+                                            <input class="form-check-input" type="checkbox" id="STATUS" name="StatusCheck" value="true" @(Model.STATUS == true ? "checked" : "") />
+                                            <label class="form-check-label" for="STATUS">
+                                                Aktif (Kullanıcı sisteme girebilir)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 3. SÜTUN: Sosyal Medya -->
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="TWITTER">Twitter</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">twitter.com/</span>
+                                            <input type="text" class="form-control" id="TWITTER" name="TWITTER" value="@Model.TWITTER" placeholder="kullaniciadi" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="INSTAGRAM">Instagram</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">instagram.com/</span>
+                                            <input type="text" class="form-control" id="INSTAGRAM" name="INSTAGRAM" value="@Model.INSTAGRAM" placeholder="kullaniciadi" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="LINKEDIN">LinkedIn</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">linkedin.com/in/</span>
+                                            <input type="text" class="form-control" id="LINKEDIN" name="LINKEDIN" value="@Model.LINKEDIN" placeholder="kullaniciadi" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <button type="submit" class="btn btn-success">Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+<script type="text/javascript">
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('imagePreview');
+            output.src = reader.result;
+        };
+        if (event.target.files[0]) {
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    }
+</script>
+<script type="text/javascript">
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        var passwordInput = document.getElementById('PASSWORD');
+        var icon = document.getElementById('toggleIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        }
+        else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+</script>
+
+@if (TempData["UpdateSuccess"] != null || TempData["UpdateError"] != null)
+{
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+            // Toastr genel ayarları (Admin paneline uygun şekilde sağ üst köşeye de alabilirsin, şu an senin tercihin olan top-center'da bıraktım)
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            @if (TempData["UpdateSuccess"] != null)
+            {
+                <text>toastr["success"]("@HttpUtility.JavaScriptStringEncode(TempData["UpdateSuccess"].ToString())", "İşlem Başarılı");</text>
+            }
+
+            @if (TempData["UpdateError"] != null)
+            {
+                <text>toastr["error"]("@HttpUtility.JavaScriptStringEncode(TempData["UpdateError"].ToString())", "Güncelleme Başarısız");</text>
+            }
+        });
+    </script>
+}

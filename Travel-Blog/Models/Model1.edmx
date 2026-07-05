@@ -45,6 +45,7 @@
           <Property Name="ADMINROLEID" Type="int" />
           <Property Name="STATUS" Type="bit" />
           <Property Name="JOB" Type="nvarchar(max)" />
+          <Property Name="EMAIL" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TBLADMINROLE">
           <Key>
@@ -245,6 +246,7 @@
           <NavigationProperty Name="TBLBLOGS" Relationship="TravelBlogModel.FK_TBLBLOGS_TBLADMIN" FromRole="TBLADMIN" ToRole="TBLBLOGS" />
           <Property Name="STATUS" Type="Boolean" />
           <Property Name="JOB" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TBLADMINROLE">
           <Key>
@@ -388,6 +390,7 @@
           <EntitySetMapping Name="TBLADMIN">
             <EntityTypeMapping TypeName="TravelBlogModel.TBLADMIN">
               <MappingFragment StoreEntitySet="TBLADMIN">
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
                 <ScalarProperty Name="JOB" ColumnName="JOB" />
                 <ScalarProperty Name="STATUS" ColumnName="STATUS" />
                 <ScalarProperty Name="ADMINROLEID" ColumnName="ADMINROLEID" />

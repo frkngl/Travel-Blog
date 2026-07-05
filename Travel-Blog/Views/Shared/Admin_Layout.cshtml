@@ -42,6 +42,15 @@
     <link rel="stylesheet" href="~/Admin/assets/css/demo.css" />
 </head>
 <body>
+    @{
+        Travel_Blog.Models.TravelBlogEntities db = new Travel_Blog.Models.TravelBlogEntities();
+
+        var user = db.TBLADMIN.FirstOrDefault();
+        ViewBag.name_surname = user.NAME_AND_SURNAME;
+        ViewBag.Pıcture = user.IMAGE;
+        ViewBag.email = user.EMAIL;
+    }
+
     <div class="wrapper">
         <!-- Sidebar -->
         <div class="sidebar" data-background-color="dark">
@@ -152,12 +161,12 @@
                                    href="#"
                                    aria-expanded="false">
                                     <div class="avatar-sm">
-                                        <img src="assets/img/profile.jpg"
+                                        <img src="~/webimage/@ViewBag.Pıcture"
                                              alt="..."
                                              class="avatar-img rounded-circle" />
                                     </div>
                                     <span class="profile-username">
-                                        <span class="fw-bold">Furkan</span>
+                                        <span class="fw-bold">@ViewBag.name_surname</span>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -165,13 +174,13 @@
                                     <li>
                                         <div class="user-box">
                                             <div class="avatar-lg">
-                                                <img src="assets/img/profile.jpg"
+                                                <img src="~/webimage/@ViewBag.Pıcture"
                                                      alt="image profile"
                                                      class="avatar-img rounded" />
                                             </div>
                                             <div class="u-text">
-                                                <h4>Furkan</h4>
-                                                <p class="text-muted">furkangul.dev@gmail.com</p>
+                                                <h4>@ViewBag.name_surname</h4>
+                                                <p class="text-muted">@ViewBag.email</p>
                                                 <a href="profile.html"
                                                    class="btn btn-xs btn-secondary btn-sm">Profilini Görüntüle</a>
                                             </div>

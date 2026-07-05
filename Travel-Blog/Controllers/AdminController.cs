@@ -17,6 +17,10 @@ namespace Travel_Blog.Controllers
         // GET: Admin
         public async Task<ActionResult> Index()
         {
+            if (Session["NameAndSurname"] == null)
+            {
+                return Redirect("/Login/Index");
+            }
             ViewBag.BlogCount = await db.TBLBLOGS.CountAsync();
             ViewBag.BlogCountActive = await db.TBLBLOGS.Where(x=>x.STATUS == true).CountAsync();
             ViewBag.BlogCountPassive = await db.TBLBLOGS.Where(x => x.STATUS == false).CountAsync();

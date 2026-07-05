@@ -242,18 +242,31 @@
                 <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
-                <form action="#" class="login">
+                <form action="/Login/Index" method="post" class="login">
+
+                    <!-- Hata mesajı varsa ekranda kırmızı bir şekilde göster -->
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div style="color: red; margin-bottom: 10px; text-align:center;">
+                            @ViewBag.ErrorMessage
+                        </div>
+                    }
+
                     <div class="field">
-                        <input type="text" placeholder="Mail" required>
+                        <input type="text" name="Username" placeholder="Kullanıcı Adı" required>
                     </div>
+
                     <div class="field">
-                        <input type="password" placeholder="Şifre" required>
+                        <input type="password" name="Password" placeholder="Şifre" required>
                     </div>
+
                     <div class="pass-link"><a href="#">Şifremi Unuttum?</a></div>
+
                     <div class="field btn">
                         <div class="btn-layer"></div>
                         <input type="submit" value="Login">
                     </div>
+
                     <div class="signup-link">Hesabın yok mu? <a href="">Kayıt Ol</a></div>
                 </form>
                 <form action="#" class="signup">

@@ -118,9 +118,23 @@
                         <div class="blog-author-widget-2 widget-item">
 
                             <div class="d-flex flex-column align-items-center">
-                                <img src="~/webimage/@item.IMAGE" class="rounded-circle flex-shrink-0" alt="">
+                                @if (item.IMAGE != null)
+                                {
+                                    <img src="~/webimage/@item.IMAGE" class="rounded-circle flex-shrink-0" alt="@item.NAME_AND_SURNAME">
+                                }
+                                else
+                                {
+                                    <img src="~/webimage/user.jpg" class="rounded-circle flex-shrink-0" alt="@item.NAME_AND_SURNAME">
+                                }
                                 <h4>@item.NAME_AND_SURNAME</h4>
-                                <h6>@item.JOB</h6>
+                                @if (item.JOB != null)
+                                {
+                                    <h6>@item.JOB</h6>
+                                }
+                                else
+                                {
+                                    @:Belirtilmemiş.
+                                }
                                 <div class="social-links">
                                     <a href="@item.TWITTER"><i class="bi bi-twitter-x"></i></a>
                                     <a href="@item.INSTAGRAM"><i class="biu bi-instagram"></i></a>

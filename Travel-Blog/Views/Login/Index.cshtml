@@ -12,6 +12,7 @@
     <link href="~/Travel-Blog/assets/img/favicon.png" rel="icon">
     <link href="~/Travel-Blog/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <style>
         * {
             margin: 0;
@@ -252,13 +253,17 @@
                         <input type="password" name="Password" placeholder="Şifre" required>
                     </div>
 
-                    <div class="pass-link"><a href="#">Şifremi Unuttum?</a></div>
+                    <a style="text-decoration:none; cursor:pointer;" class="pass-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Şifremi Unuttum
+                    </a>
 
                     <div class="field btn">
                         <div class="btn-layer"></div>
                         <input type="submit" value="Login">
                     </div>
-                    <div class="signup-link">Hesabın yok mu? <a href="">Kayıt Ol</a></div>
+                    <div class="signup-link">
+                        Anasayfaya dönmek için <a style="text-decoration:none;" href="@Url.Action("Index", "Home")">buraya tıklayın</a>
+                    </div>
                 </form>
                 <form action="/Login/Register" method="post" class="signup">
                     <div class="field">
@@ -279,18 +284,42 @@
                     </div>
                 </form>
             </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Şifre Sıfırlama</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="resetPasswordForm">
+                                <div class="mb-3">
+                                    <label for="resetEmail" class="form-label">Kayıtlı E-posta Adresiniz</label>
+                                    <input type="email" class="form-control" id="resetEmail" required placeholder="ornek@adres.com">
+                                    <!-- Uyarı ve başarı mesajlarını göstermek için alan -->
+                                    <div id="resetMessage" class="mt-2" style="display:none; font-weight:bold;"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
+                            <button type="button" class="btn btn-primary" id="btnSendReset">Gönder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 </html>
 <script src="~/Scripts/jquery-3.7.1.min.js"></script>
 <script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/bootstrap.bundle.min.js"></script>
 <script>
     const loginText = document.querySelector(".title-text .login");
     const loginForm = document.querySelector("form.login");
     const loginBtn = document.querySelector("label.login");
     const signupBtn = document.querySelector("label.signup");
-    const signupLink = document.querySelector("form .signup-link a");
     signupBtn.onclick = (() => {
         loginForm.style.marginLeft = "-50%";
         loginText.style.marginLeft = "-50%";
@@ -299,11 +328,44 @@
         loginForm.style.marginLeft = "0%";
         loginText.style.marginLeft = "0%";
     });
-    signupLink.onclick = (() => {
-        signupBtn.click();
-        return false;
-    });
 
+</script>
+<!-- jQuery (Eğer projenizde yoksa ekleyin) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#btnSendReset').click(function () {
+        var emailVal = $('#resetEmail').val();
+        var messageBox = $('#resetMessage');
+
+        if(emailVal === "") {
+            messageBox.text("Lütfen e-posta adresinizi giriniz.").css("color", "red").show();
+            return;
+        }
+
+        // Butonu pasif yapıp "Gönderiliyor..." yazısı ekleyelim
+        var btn = $(this);
+        btn.prop('disabled', true).text('Gönderiliyor...');
+
+        $.ajax({
+            url: '@Url.Action("ResetPassword", "Login")', // Controller'daki metodun yolu
+            type: 'POST',
+            data: { email: emailVal },
+            success: function (response) {
+                if (response.success) {
+                    messageBox.text(response.message).css("color", "green").show();
+                } else {
+                    messageBox.text(response.message).css("color", "red").show();
+                }
+            },
+            error: function () {
+                messageBox.text("Beklenmedik bir hata oluştu.").css("color", "red").show();
+            },
+            complete: function () {
+                // İşlem bitince butonu eski haline getir
+                btn.prop('disabled', false).text('Gönder');
+            }
+        });
+    });
 </script>
 
 @if (ViewBag.ErrorMessage != null || ViewBag.RegisterError != null || ViewBag.RegisterSuccess != null)

@@ -79,10 +79,28 @@
                 {
                     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="team-member d-flex align-items-start">
-                            <div class="pic"><img src="~/webimage/@admin.IMAGE" class="img-fluid" alt="@admin.NAME_AND_SURNAME"></div>
+                            @if (admin.IMAGE != null)
+                            {
+                                <div class="pic"><img src="~/webimage/@admin.IMAGE" class="img-fluid" alt="@admin.NAME_AND_SURNAME"></div>
+                            }
+                            else
+                            {
+                                <div class="pic"><img src="~/webimage/user.jpg" class="img-fluid" alt="@admin.NAME_AND_SURNAME"></div>
+                            }
+
                             <div class="member-info">
                                 <h4>@admin.NAME_AND_SURNAME</h4>
-                                <span>@admin.TBLADMINROLE.ROLE || @admin.JOB</span>
+                                <span>
+                                    @admin.TBLADMINROLE.ROLE ||
+                                    @if (admin.JOB != null)
+                                    {
+                                        @admin.JOB
+                                    }
+                                    else
+                                    {
+                                        @:Belirtilmemiş.
+                                    }
+                                </span>
                                 <p>@admin.DESCRIPTION</p>
                                 <div class="social">
                                     <a href="@admin.TWITTER" target="_blank"><i class="bi bi-twitter-x"></i></a>

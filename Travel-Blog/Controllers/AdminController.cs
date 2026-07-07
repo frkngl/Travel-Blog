@@ -40,7 +40,6 @@ namespace Travel_Blog.Controllers
             return View(user);
         }
 
-        // --- 2. POST: AYARLARI GÜNCELLEME ---
         [HttpPost]
         public ActionResult UserSettingUpdate(TBLADMIN p, HttpPostedFileBase ImageFile)
         {
@@ -48,14 +47,13 @@ namespace Travel_Blog.Controllers
 
             if (user != null)
             {
-                // Resim Yükleme İşlemi
                 if (ImageFile != null && ImageFile.ContentLength > 0)
                 {
                     string fileName = Path.GetFileName(ImageFile.FileName);
                     string path = Path.Combine(Server.MapPath("~/webimage"), fileName);
                     ImageFile.SaveAs(path);
 
-                    user.IMAGE = fileName; // Sadece resim adı veritabanına yazılır
+                    user.IMAGE = fileName; 
                 }
 
                 string oldUsername = user.USERNAME;
@@ -93,6 +91,33 @@ namespace Travel_Blog.Controllers
 
             TempData["UpdateError"] = "Güncelleme sırasında bir hata oluştu.";
             return RedirectToAction("UserSetting");
+        }
+
+        public ActionResult AdminList()
+        {
+            var degerler = db.TBLADMIN.ToList();
+            return View(degerler);
+        }
+
+        [HttpGet]
+        public ActionResult ChangeStatus(int id)
+        {
+            var admin = db.TBLADMIN.Find(id);
+
+            if (admin != null)
+            {
+                admin.STATUS = !admin.STATUS;
+                db.SaveChanges();
+
+                string durum = (admin.STATUS == true) ? "Aktif" : "Pasif";
+                TempData["UpdateSuccess"] = "Kullanıcı durumu '" + durum + "' olarak güncellendi.";
+            }
+            else
+            {
+                TempData["UpdateError"] = "Kullanıcı bulunamadı!";
+            }
+
+            return RedirectToAction("AdminList");
         }
     }
 }

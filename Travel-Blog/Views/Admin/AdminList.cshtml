@@ -1,0 +1,92 @@
+﻿@using Travel_Blog.Models
+@model List<TBLADMIN>
+@{
+    ViewBag.Title = "AdminList";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+<link href="~/Content/toastr.min.css" rel="stylesheet" />
+<div style="margin-top:90px;" class="card">
+    <div class="card-header">
+        <div class="card-title">Admin & Yazar</div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sıra</th>
+                        <th>Resim</th>
+                        <th>Ad Soyad</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Oluşturma Tarihi</th>
+                        <th>Durum</th>
+                        <th>Güncelleme</th>
+                        <th>Silme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.ID</th>
+                            <td><img src="~/webimage/@item.IMAGE" style="height:50px; width:50px; border-radius:50%; object-fit:cover;" /></td>
+                            <td>@item.NAME_AND_SURNAME</td>
+                            <td>@item.USERNAME</td>
+                            <td>@item.CREATE_DATE.Value.ToString("dd.MM.yyyy")</td>
+                            <td>
+                                @if (item.STATUS == true)
+                                {
+                                    <a href="/Admin/ChangeStatus/@item.ID" class="btn btn-success btn-sm">Aktif</a>
+                                }
+                                else
+                                {
+                                    <a href="/Admin/ChangeStatus/@item.ID" class="btn btn-danger btn-sm">Pasif</a>
+                                }
+                            </td>
+                            <td>Table cell</td>
+                            <td>Table cell</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+@if (TempData["UpdateSuccess"] != null || TempData["UpdateError"] != null)
+{
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            @if (TempData["UpdateSuccess"] != null)
+            {
+                <text>toastr["success"]("@HttpUtility.JavaScriptStringEncode(TempData["UpdateSuccess"].ToString())", "İşlem Başarılı");</text>
+            }
+
+            @if (TempData["UpdateError"] != null)
+            {
+                <text>toastr["error"]("@HttpUtility.JavaScriptStringEncode(TempData["UpdateError"].ToString())", "İşlem Başarısız");</text>
+            }
+        });
+    </script>
+}
+

@@ -160,11 +160,11 @@
                             <div class="d-flex align-items-center w-100">
                                 @if (Model.TBLADMIN.IMAGE != null)
                                 {
-                                    <img src="~/webimage/@Model.TBLADMIN.IMAGE" class="rounded-circle flex-shrink-0" alt="@Model.TBLADMIN.NAME_AND_SURNAME">
+                                    <img src="~/webimage/@Model.TBLADMIN.IMAGE" style="height:120px; object-fit:cover;" class="rounded-circle flex-shrink-0" alt="@Model.TBLADMIN.NAME_AND_SURNAME">
                                 }
                                 else
                                 {
-                                    <img src="~/webimage/user.jpg" class="rounded-circle flex-shrink-0" alt="@Model.TBLADMIN.NAME_AND_SURNAME">
+                                    <img src="~/webimage/user.jpg" style="height:120px; object-fit:cover;" class="rounded-circle flex-shrink-0" alt="@Model.TBLADMIN.NAME_AND_SURNAME">
                                 }
 
                                 <div>

@@ -81,11 +81,11 @@
                         <div class="team-member d-flex align-items-start">
                             @if (admin.IMAGE != null)
                             {
-                                <div class="pic"><img src="~/webimage/@admin.IMAGE" class="img-fluid" alt="@admin.NAME_AND_SURNAME"></div>
+                                <div class="pic"><img src="~/webimage/@admin.IMAGE" class="img-fluid" style="height:150px; object-fit:cover;" alt="@admin.NAME_AND_SURNAME"></div>
                             }
                             else
                             {
-                                <div class="pic"><img src="~/webimage/user.jpg" class="img-fluid" alt="@admin.NAME_AND_SURNAME"></div>
+                                <div class="pic"><img src="~/webimage/user.jpg" class="img-fluid" style="height:150px; object-fit:cover;" alt="@admin.NAME_AND_SURNAME"></div>
                             }
 
                             <div class="member-info">
